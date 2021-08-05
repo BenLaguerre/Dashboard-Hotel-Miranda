@@ -1,4 +1,4 @@
-import React  from "react";
+import React , { useEffect } from "react";
 import GuestItem from '../components/GuestItem'
 import styled from "styled-components";
 import { useSelector } from 'react-redux';
@@ -27,6 +27,11 @@ const TRow = styled.tr `
 `;
 
 export default function GuestList(props) {
+
+  useEffect(() => {
+    props.title("Booking")
+  }, []);
+
   const guestData = useSelector(state => state.guestList.newGuestList); 
  
   

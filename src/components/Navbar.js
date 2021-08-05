@@ -125,11 +125,6 @@ const MB = styled.p `
 
 export default function Navbar(props) {
   
-  function HandleTitle(name) {
-    props.handleTitle(name)
-  }
-    
-
   const value = useContext(AuthContext);
   
   return (
@@ -149,15 +144,15 @@ export default function Navbar(props) {
         <>     
           <StyledNav>
             <ul>
-              <StyledList><StyledNavLink to="/dashboard" onClick={()=> HandleTitle("Dashboard")}><span className="material-icons"> dashboard </span>Dashboard</StyledNavLink></StyledList>
+              <StyledList><StyledNavLink to="/dashboard"><span className="material-icons"> dashboard </span>Dashboard</StyledNavLink></StyledList>
 
-              <StyledList><StyledNavLink to="/roomlist" onClick={()=> HandleTitle("Room List")}><span className="material-icons"> vpn_key </span>Rooms</StyledNavLink></StyledList>
+              <StyledList><StyledNavLink to="/roomlist"><span className="material-icons"> vpn_key </span>Rooms</StyledNavLink></StyledList>
 
-              <StyledList><StyledNavLink to="/booking" onClick={()=> HandleTitle("Booking")}><span className="material-icons"> event_note </span>Booking</StyledNavLink></StyledList>
+              <StyledList><StyledNavLink to="/booking"><span className="material-icons"> event_note </span>Booking</StyledNavLink></StyledList>
                 
-              <StyledList><StyledNavLink to="/conciergelist" onClick={()=> HandleTitle("Concierge List")}><span className="material-icons"> person_outline </span>Concierge</StyledNavLink></StyledList>
+              <StyledList><StyledNavLink to="/conciergelist"><span className="material-icons"> person_outline </span>Concierge</StyledNavLink></StyledList>
                 
-              <StyledList><StyledNavLink to="/reviews" onClick={()=> HandleTitle("Reviews")}><span className="material-icons"> grading </span>Reviews</StyledNavLink></StyledList>
+              <StyledList><StyledNavLink to="/reviews"><span className="material-icons"> grading </span>Reviews</StyledNavLink></StyledList>
                 
             </ul>
           </StyledNav>

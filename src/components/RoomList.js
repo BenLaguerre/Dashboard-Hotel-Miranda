@@ -1,4 +1,4 @@
-import React  from "react";
+import React , { useEffect } from "react";
 import RoomItem from '../components/RoomItem';
 import styled from "styled-components";
 import { useSelector } from 'react-redux'
@@ -25,6 +25,9 @@ const CheckBox= styled.td `
 `;
 
 export default function RoomList(props) {
+  useEffect(() => {
+    props.title("Room List")
+  }, []);
 
   const roomData = useSelector(state => state.roomList.newRoomList); 
   

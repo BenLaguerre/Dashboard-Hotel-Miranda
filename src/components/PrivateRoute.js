@@ -11,7 +11,7 @@ export default function PrivateRoute({ children, ...rest }) {
 
   return (
         <>
-        <Route {...rest}>{value ? children : <Redirect to="/login" >  </Redirect>}</Route>
+        <Route {...rest}>{value ? children : <Redirect to="/login" />  }</Route>
         </>
     )
   

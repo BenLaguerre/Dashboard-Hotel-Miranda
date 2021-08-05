@@ -40,6 +40,7 @@ function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [title,setTitle] = useState('Dashboard');
   const [navon,setNavon] = useState(true);
+  let storage = localStorage.getItem('authenticated');
 
   const handleNavBar = () => {
     setNavon(!navon);
@@ -68,10 +69,10 @@ function App() {
  return (
     <div className="App">
       <ContentWrapper> 
-        <AuthContext.Provider value={authenticated}>
+        <AuthContext.Provider value={storage}>
           <Router>
             {navon ?
-              <Navbar handleTitle = {handleTitle} /> : null
+            <Navbar /> : null
             }
            
             <HeaderTableWrapper>
@@ -80,53 +81,53 @@ function App() {
 
               <Switch>
                 <PrivateRoute exact path="/roomlist">
-                  <RoomList />
+                  <RoomList title={handleTitle} />
                 </PrivateRoute> 
 
                 <PrivateRoute exact path="/booking"> 
-                  <GuestList />
+                  <GuestList title={handleTitle} />
                 </PrivateRoute>
 
                 <PrivateRoute exact path="/conciergelist">
-                  <ConciergeList />
+                  <ConciergeList title={handleTitle} />
                 </PrivateRoute>
 
                 <PrivateRoute exact path="/reviews">
-                  <ReviewList />
+                  <ReviewList title={handleTitle} />
                 </PrivateRoute>
 
                 <Route exact path="/login">{!authenticated ?
-                  <Login authenticate={authenticate} />  : <Redirect to="/dashboard"></Redirect>}
+                  <Login authenticate={authenticate} />  : <Redirect to="/dashboard" />}
                 </Route>
 
                 <Route exact path="/register">{!authenticated ?
-                  <Register />  : <Redirect to="/dashboard"></Redirect>}
+                  <Register />  : <Redirect to="/dashboard" />}
                 </Route>
 
                 <PrivateRoute path="/roomlist/:id">
-                  <Room />
+                  <Room  title={handleTitle} />
                 </PrivateRoute>
 
                 <PrivateRoute path="/conciergelist/:id">
-                  <Concierge />
+                  <Concierge  title={handleTitle} />
                 </PrivateRoute> 
 
                 <PrivateRoute path="/booking/:id">
-                  <Guest />
+                  <Guest title={handleTitle} />
                 </PrivateRoute>
 
                 <PrivateRoute path="/reviews/:id">
-                  <Review />
+                  <Review title={handleTitle} />
                 </PrivateRoute>
 
                 <PrivateRoute exact path="/dashboard">
-                  <Dashboard />
+                  <Dashboard  title={handleTitle} />
                 </PrivateRoute>
 
-                <PrivateRoute exact path="/">
+                <PrivateRoute exact path="*">
                   <Dashboard />
                 </PrivateRoute> 
-
+                
               </Switch>
             </HeaderTableWrapper>
           </Router>

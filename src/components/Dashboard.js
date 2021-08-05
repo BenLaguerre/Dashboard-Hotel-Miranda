@@ -1,4 +1,4 @@
-import React  from "react";
+import React , { useEffect } from "react";
 import styled from "styled-components";
 import { IoBedOutline } from "react-icons/io5";
 import { RiCalendarCheckLine } from "react-icons/ri";
@@ -95,6 +95,10 @@ const CalendarStats = styled.div`
 
 export default function Dashboard(props) {
   
+  useEffect(() => {
+    props.title("Dashboard")
+  }, []); 
+
   return (
     <>
     <DashWrapper>

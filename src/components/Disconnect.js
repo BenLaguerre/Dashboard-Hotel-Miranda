@@ -9,9 +9,8 @@ const Logout = styled(IoLogOutOutline)`
 `;
 
 export default function Disconnect(props) {
-  
   function buttonDisconnect(){
-    props.authenticate();
+    props.authenticate(false);
   }
 
     return (

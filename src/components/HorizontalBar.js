@@ -72,7 +72,7 @@ export default function HorizontalBar(props) {
   return (
     <>
     <BarWrapper>
-       { props.navon ? 
+      { props.navon ? 
         <ArrowLeft onClick={hideMenu} size={26} /> :
         <ArrowRight onClick={hideMenu} size={26} />
       }   

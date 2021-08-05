@@ -1,4 +1,4 @@
-import React, { useState,  useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ReviewItem from '../components/ReviewItem';
 import update from 'immutability-helper';
 import styled from "styled-components";
@@ -23,6 +23,10 @@ const CheckBox= styled.td `
 `;
 
 export default function ReviewList(props) {
+
+  useEffect(() => {
+    props.title("Reviews")
+  }, []);
 
   const reviewData = useSelector(state => state.reviewList.newReviewList); 
   /*const reviewData = reviewJSON;*/

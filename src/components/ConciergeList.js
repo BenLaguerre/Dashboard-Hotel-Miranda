@@ -1,4 +1,4 @@
-import React  from "react";
+import React , { useEffect } from "react";
 import ConciergeItem from '../components/ConciergeItem';
 import styled from "styled-components";
 import { useSelector } from 'react-redux'
@@ -25,6 +25,9 @@ const CheckBox= styled.th `
 `;
 
 export default function ConciergeList(props) {
+  useEffect(() => {
+    props.title("Concierge List")
+  }, []);
  
   const conciergeData = useSelector(state => state.conciergeList.newConciergeList); 
 

@@ -76,13 +76,11 @@ const SLink = styled(Link) `
 		color: white;
 		border: 2px solid #135846;
 }
-	
-
 `
 
 export default function Login(props) {
   let history = useHistory(); 
-  let { from } =  { from: { pathname: "/dashboard" } };
+  let { from } = { from: { pathname: "/dashboard" } };
   
   
   const [loginInput, setLoginInput] = useState('');
@@ -103,23 +101,19 @@ export default function Login(props) {
         login: 'admin',
         password: 'admin'
       }
-      if ((loginInput === hardcodedLogs.login) && (passwordInput === hardcodedLogs.password)) {
-        
-        props.authenticate(true);
-        history.replace(from);
-        setComb(true);
-        
-      } else {
-          //bad combination
-        setComb(false);
-      }
+    if ((loginInput === hardcodedLogs.login) && (passwordInput === hardcodedLogs.password)) {
+      props.authenticate(true);
+      history.replace(from);
+      setComb(true);
+      
+    } else {
+      //bad combination
+      setComb(false);
     }
+  }
 
   return (
-  
     <>
-    
-    
     <FormStyled onSubmit={handleLoginSubmit}>
       <Title>Log In</Title>
       <label htmlFor="login">Login : </label>
@@ -132,11 +126,10 @@ export default function Login(props) {
       <SLink to="/register"> Register </SLink>
       <p>Use the combination admin/admin to enter without registering</p>
       {!comb ?  
-      <p>Wrong login or password combination</p>
+      <p>Wrong login or password combination </p>
        : null}
     </FormStyled>
     </>
     );
-  
 } 
   
