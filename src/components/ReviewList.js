@@ -22,11 +22,11 @@ const CheckBox= styled.td `
   padding-left: 20px;
 `;
 
-export default function ReviewList(props) {
+export default function ReviewList({title}) {
 
   useEffect(() => {
-    props.title("Reviews")
-  }, []);
+    title("Reviews")
+  }, [title]);
 
   const reviewData = useSelector(state => state.reviewList.newReviewList); 
   /*const reviewData = reviewJSON;*/

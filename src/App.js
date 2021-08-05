@@ -46,7 +46,7 @@ function App() {
     setNavon(!navon);
   }
 
-  const handleTitle = (name) => {
+  const handleTitle = name => {
     setTitle(name);
   }
   
@@ -125,7 +125,7 @@ function App() {
                 </PrivateRoute>
 
                 <PrivateRoute exact path="*">
-                  <Dashboard />
+                  <Redirect to="/dashboard" />
                 </PrivateRoute> 
                 
               </Switch>

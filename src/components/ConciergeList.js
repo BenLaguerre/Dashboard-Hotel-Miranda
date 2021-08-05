@@ -24,10 +24,10 @@ const CheckBox= styled.th `
   padding-left: 20px;
 `;
 
-export default function ConciergeList(props) {
+export default function ConciergeList({title}) {
   useEffect(() => {
-    props.title("Concierge List")
-  }, []);
+    title("Concierge List")
+  }, [title]);
  
   const conciergeData = useSelector(state => state.conciergeList.newConciergeList); 
 

@@ -26,11 +26,11 @@ const TRow = styled.tr `
   border-bottom: solid #F8F8F8 1px;
 `;
 
-export default function GuestList(props) {
+export default function GuestList({title}) {
 
   useEffect(() => {
-    props.title("Booking")
-  }, []);
+    title("Booking")
+  }, [title]);
 
   const guestData = useSelector(state => state.guestList.newGuestList); 
  

@@ -24,10 +24,10 @@ const CheckBox= styled.td `
   padding-left: 20px;
 `;
 
-export default function RoomList(props) {
+export default function RoomList({title}) {
   useEffect(() => {
-    props.title("Room List")
-  }, []);
+    title("Room List")
+  }, [title]);
 
   const roomData = useSelector(state => state.roomList.newRoomList); 
   

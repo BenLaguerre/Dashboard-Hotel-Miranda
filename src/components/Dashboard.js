@@ -88,16 +88,13 @@ const CalendarStats = styled.div`
   margin-top: 50px; 
   display: flex;
   justify-content: flex-start;
-  
-  
 `
 
-
-export default function Dashboard(props) {
+export default function Dashboard({title}) {
   
   useEffect(() => {
-    props.title("Dashboard")
-  }, []); 
+    title("Dashboard")
+  }, [title]); 
 
   return (
     <>
