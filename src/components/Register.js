@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const  FormStyled = styled.form`
 	font-family: 'Poppins';
-  background: white;
+	background: white;
 	width: 30%;
 	padding: 30px 50px;
 	box-shadow: 0px 4px 4px #00000005;
@@ -14,12 +14,11 @@ const  FormStyled = styled.form`
 	grid-template-columns: 1fr 1fr;
 	grid-gap: 20px;
 	position: relative;
-  top: 20vh;
+	top: 20vh;
 	label {
 		color: #135846;
 	}
-`;
-
+	`
 const Title = styled.h1 `
 	text-align: center;
 	grid-column: 1/3;
@@ -34,11 +33,9 @@ const SInput = styled.input `
 		outline : solid #135846;
 	}
 `
-
 const FormButton = styled.input `
 	font-family: 'Poppins';
 	font-size: 16px;
-	margin-top:30px;
 	box-sizing: content-box;
 	padding: 0;
 	border-radius: 12px;
@@ -51,31 +48,20 @@ const FormButton = styled.input `
 		color: #135846;
 		border: 2px solid #135846;
 	}
-	
 `
 const SLink = styled(Link) `
-	
-	margin-top:30px;
-	border-radius: 12px;
-	background: #F8F8F8;
 	color: #135846;
-	border: 2px solid #135846;
-	height: 45px;
 	text-align: center;
 	text-decoration: none;
 	&:hover {
-		background: #135846;
-		color: white;
-		border: 2px solid #135846;
+		text-decoration: underline;
 }
-	
 `
 
 export default function Register(props) {
   
   return (
     <>
-		
     <FormStyled>
 			<Title>Register</Title>
 				

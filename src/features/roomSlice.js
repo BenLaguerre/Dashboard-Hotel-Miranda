@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import roomJSON from '../json/roomJSON.json';
 
-const roomsMap = roomJSON.map ((data, index) =>
+const ROOMS_MULTIPLY = 10;
+let roomsMap = roomJSON.map ((data, index) =>
   ({
     key: data.id, 
     id: data.id, 
@@ -21,8 +22,18 @@ export const roomSlice = createSlice ({
   ,
   
   reducers: {    
-    fetchRooms: (state, page) => {
-      state.roomList = roomsMap.slice(page.payload-10, page.payload).map((item,index) => 
+    fetchRooms: (state, action) => {
+      state.roomList = roomsMap.filter(item => {
+        if (action.payload.filt === 1){
+          return item.btype === 'Booked';
+
+        } else if (action.payload.filt === 2) {
+          return item.btype === 'Available';
+        }
+        
+        return true;
+      
+      }).slice((action.payload.page-1)*ROOMS_MULTIPLY , action.payload.page * ROOMS_MULTIPLY).map((item,index) => 
       ({ 
         key: item.key, 
         id: item.id, 

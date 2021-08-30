@@ -24,6 +24,7 @@ const PreWrapper = styled.div `
       background: #F8F8F8;
       color: #135846;
       border: 2px solid #135846;
+      cursor: pointer;
     }
   }
 `
@@ -96,7 +97,7 @@ const Subtitle = styled.p `
 const Available = styled.div `
   background: #5AD07A;
   padding: 15px;
-  width: 250px;
+  width: 300px;
   color: white;
   text-align: center;
   transform: rotate(45deg);
@@ -115,7 +116,7 @@ const Booked = styled.div `
   top: 2.2em;
   right: -60%;
 ` 
-//
+
 export default function Room(props) {
  
   let { id } = useParams();

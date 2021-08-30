@@ -27,13 +27,16 @@ const  FormStyled = styled.form`
     grid-column:1/3;
     color: #E23428;
   }
-`;
-
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`
 const Title = styled.h1 `
 	text-align: center;
 	grid-column: 1/3;
 `
-
 const SInput = styled.input `
 	background: #F8F8F8;
 	border: none;
@@ -44,7 +47,6 @@ const SInput = styled.input `
 		outline : solid #135846;
 	}
 `
-
 const FormButton = styled.input `
   font-family: 'Poppins';
   font-size: 16px;
@@ -60,28 +62,19 @@ const FormButton = styled.input `
 		color: #135846;
 		border: 2px solid #135846;
 	}
-	
 `
-
 const SLink = styled(Link) `
-	border-radius: 12px;
-	background: #F8F8F8;
 	color: #135846;
-	border: 2px solid #135846;
-	line-height: 45px;
 	text-align: center;
 	text-decoration: none;
 	&:hover {
-		background: #135846;
-		color: white;
-		border: 2px solid #135846;
+		text-decoration: underline;
 }
 `
 
 export default function Login(props) {
   let history = useHistory(); 
   let { from } = { from: { pathname: "/dashboard" } };
-  
   
   const [loginInput, setLoginInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');  
@@ -123,7 +116,7 @@ export default function Login(props) {
       <SInput type="password" id="password" name="password" onChange={handlePasswordChange}></SInput>
 
       <FormButton type="submit" value="Log in"></FormButton>
-      <SLink to="/register"> Register </SLink>
+      <div><SLink to="/register"> Register </SLink></div>
       <p>Use the combination admin/admin to enter without registering</p>
       {!comb ?  
       <p>Wrong login or password combination </p>

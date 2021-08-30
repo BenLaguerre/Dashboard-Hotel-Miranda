@@ -17,4 +17,4 @@
 {"id":17,"first_name":"Chloe","last_name":"Saffe","order_date":"4/28/2021","check_in":"12/8/2020","check_out":"8/12/2020","room_type":"Deluxe A"},
 {"id":18,"first_name":"Amalee","last_name":"Kennedy","order_date":"3/28/2021","check_in":"3/16/2021","check_out":"10/24/2020","room_type":"Deluxe B"},
 {"id":19,"first_name":"Heddi","last_name":"Aspel","order_date":"12/3/2020","check_in":"8/1/2020","check_out":"3/6/2021","room_type":"Deluxe B"},
-{"id":20,"first_name":"Stephani","last_name":"Sizland","order_date":"4/28/2021","check_in":"4/15/2021","check_out":"8/30/2020","room_type":"Deluxe C"}]
+{"id":20,"first_name":"Stephani","last_name":"Sizland","order_date":"4/28/2021","check_in":"4/15/2020","check_out":"8/30/2020","room_type":"Deluxe C"}]
