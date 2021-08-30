@@ -27,7 +27,7 @@ const Image = styled.img `
   border-radius: 8px;
   height: 70px;
   width: 130px;
-  `
+`
 const Rate = styled.span `
   color: #799283;
   font-size: 14px;
