@@ -1,14 +1,12 @@
-import React from "react";
-import {
-  useParams
-} from "react-router-dom";
-import { useSelector } from 'react-redux';
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import room_generic2 from '../images/room_generic2.jpg';
 import styled from "styled-components";
-import { FcBusinessman } from "react-icons/fc";
 import { convertDate } from './GuestItem';
-import { FaPhoneAlt } from "react-icons/fa";
+import { fetchRooms} from '../features/roomSlice';
+import { fetchGuests} from '../features/guestSlice';
 
 const PreWrapper = styled.div `
   width: 90%;
@@ -45,9 +43,23 @@ const MainWrapper = styled.div `
   }
   aside {
     flex: 1;
+    display: flex;
+    align-items: flex-end;
     background: url(${room_generic2}) no-repeat;
     background-size: cover;
     border-radius: 0 20px 20px 0;
+    div {
+      padding: 20px;
+      background: rgb(128,128,128,0.6);
+      transition: background 0.5s;
+      &:hover{
+        background:  rgb(128,128,128,0.9);
+       
+      }
+      p {
+        color: white;
+      }
+    }
   }
 `
 const GuestInfoWrapper = styled.div `
@@ -55,22 +67,19 @@ const GuestInfoWrapper = styled.div `
   padding-bottom: 30px;
   border-bottom: solid 1px #f6f6f6;
   div:nth-of-type(1) {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    div {
-      flex-direction: column;
-      h2 {
-        font-size: 30px;
-      }
-      p {
-        color: #799283;
-        font-size: 14px;
-      }
+    h2 {
+      font-size: 30px;
     }
   }
   div:nth-of-type(2) {
+    display:flex;
+    margin-bottom: 30px;
+    p {
+      color: #799283;
+      font-size: 14px;
+    }
+  }
+  div:nth-of-type(3) {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -80,7 +89,7 @@ const GuestInfoWrapper = styled.div `
       font-size: 14px;
     }
   }
-  div:nth-of-type(3) {
+  div:nth-of-type(4) {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -114,9 +123,6 @@ const RoomInfoWrapper = styled.div `
     }
   }
   div:nth-of-type(3) {
-    margin-bottom: 30px;
-  }
-  div:nth-of-type(4) {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -141,42 +147,35 @@ const Subtitle = styled.p `
   font-size: 14px;
   margin-bottom: 10px;
 ` 
-const Available = styled.div `
-  background: #5AD07A;
-  padding: 15px;
-  width: 300px;
-  color: white;
-  text-align: center;
-  transform: rotate(45deg);
-  position: relative;
-  top: 4em;
-  right: -50%;
-` 
-const Booked = styled.div `
-  background: #E23428;
-  padding: 15px;
-  width: 300px;
-  color: white;
-  text-align: center;
-  transform: rotate(45deg);
-  position: relative;
-  top: 4em;
-  right: -50%;
-` 
 
-export default function Guest(props) {
+export default function Guest() {
  
-  let { id } = useParams();
+  const dispatch = useDispatch();
   
+  let { id } = useParams();
   let history = useHistory(); 
   
+  //The id from useParams goes from 1 to 20 but the indice of each element in each page goes from 0 to 9. 
+  //This formula allows to converts the range 1-10 to 0-9 and 11-20 to 0-9.
+  
+  let indice = id - 1 - ((Math.floor((id-1)/10))*10);
+  useEffect(() => {
+    dispatch(fetchRooms({page: (Math.ceil(id/10)), filt : 0}));
+    dispatch(fetchGuests({page: (Math.ceil(id/10)), filt : 0}));
+  }, []);
+
   function goBack (){
     history.goBack();
   }
 
-  const guestInfo = useSelector(state => state.guestList.guestList[id-1]);
-  const roomInfo = useSelector(state => state.roomList.roomList[id-1]);
+  
+  const guestInfo = useSelector(state => state.guestList.guestList[indice]);
+  const roomInfo = useSelector(state => state.roomList.roomList[indice]);
  
+  if (!roomInfo || !guestInfo ){
+    return null
+  }
+  
   return (
     <>
     <PreWrapper>
@@ -187,12 +186,10 @@ export default function Guest(props) {
       <article>
         <GuestInfoWrapper>
           <div>
-            <FcBusinessman size={140} />
-            <div>
-              <h2>{guestInfo.firstName} {guestInfo.lastName}</h2>
-              <p>ID: 256984-175{id}</p>
-              <FaPhoneAlt size={20} color={'#135846'} />
-            </div>
+            <h2>{guestInfo.firstName} {guestInfo.lastName}</h2>
+          </div>
+          <div>
+            <p>ID: 256984-175{id}</p>
           </div>
           <div>
             <p>Check In</p>
@@ -212,10 +209,7 @@ export default function Guest(props) {
             <h2>{roomInfo.roomName} - {id}</h2>
             <p>{roomInfo.rates}<Price> /night</Price></p>
           </div>
-          <Subtitle>Description</Subtitle>
-          <div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  </p>
-          </div> 
+          
           <Subtitle>Facilities</Subtitle>
           <div>
             <p>{roomInfo.bedType}</p>
@@ -229,10 +223,9 @@ export default function Guest(props) {
         </RoomInfoWrapper>
       </article>
       <aside>
-        {roomInfo.btype === 'Available' ? 
-          <Available>{roomInfo.btype} </Available> :
-          <Booked>{roomInfo.btype}</Booked>
-        } 
+        <div>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  </p>
+        </div> 
       </aside>
     </MainWrapper>
     </>

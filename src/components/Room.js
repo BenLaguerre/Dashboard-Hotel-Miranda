@@ -1,9 +1,8 @@
-import React from "react";
-import {
-  useParams
-} from "react-router-dom";
-import { useSelector } from 'react-redux';
+import React, {useEffect} from "react";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
+import { fetchRooms} from '../features/roomSlice';
 import room_generic2 from '../images/room_generic2.jpg';
 import styled from "styled-components";
 
@@ -117,18 +116,32 @@ const Booked = styled.div `
   right: -60%;
 ` 
 
-export default function Room(props) {
- 
-  let { id } = useParams();
+export default function Room({title}) {
   
+  const dispatch = useDispatch();
+  
+  let { id } = useParams();
   let history = useHistory(); 
   
+  //The id from useParams goes from 1 to 20 but the indice of each element in each page goes from 0 to 9. 
+  //This formula allows to converts the range 1-10 to 0-9 and 11-20 to 0-9.
+  let indice = id - 1 - ((Math.floor((id-1)/10))*10);
+
+  useEffect(() => {
+    dispatch(fetchRooms({page: (Math.ceil(id/10)), filt : 0}));
+    console.log(Math.floor((id-1)/10))
+  }, []);
+
+  const roomInfo = useSelector(state => state.roomList.roomList[indice]);
+
   function goBack (){
     history.goBack();
   }
 
-  const roomInfo = useSelector(state => state.roomList.roomList[id-1]);
- 
+  if (!roomInfo){
+    return null
+  }
+
   return (
     <> 
     <PreWrapper>
@@ -168,4 +181,5 @@ export default function Room(props) {
     </MainWrapper>
     </>
   );
+
 }

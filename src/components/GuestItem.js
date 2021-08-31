@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { useDispatch } from 'react-redux';
 import { deleteGuest } from '../features/guestSlice';
 import room_generic from '../images/room_generic.jpg';
-import { FcBusinessman } from "react-icons/fc";
 import { TiDeleteOutline } from "react-icons/ti";
 import { fetchRooms } from "../features/roomSlice";
 
@@ -65,7 +64,7 @@ export default function GuestItem(props) {
  
   return (
     <>
-      <TD><StyledLink to={`/booking/${props.index+1}`} onClick={() => dispatch(fetchRooms({page: Math.ceil(props.id/10), filt : 0}))}>{props.firstName} {props.lastName}</StyledLink></TD>
+      <TD><StyledLink to={`/booking/${props.id}`} >{props.firstName} {props.lastName}</StyledLink></TD>
       <td>{convertDate(props.orderDate)}</td>
       <td>{convertDate(props.checkIn)}</td>
       <td>{convertDate(props.checkOut)}</td>

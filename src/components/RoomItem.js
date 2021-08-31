@@ -47,7 +47,7 @@ export default function RoomItem(props) {
 
   return (
     <>
-      <PadTd><StyledLink to={`/roomlist/${props.index+1}`}><Image src={room_generic}></Image>{props.roomName}</StyledLink></PadTd>
+      <PadTd><StyledLink to={`/roomlist/${props.id}`}><Image src={room_generic}></Image>{props.roomName}</StyledLink></PadTd>
       <td>{props.bedType}</td>
       <td>{props.facilities}</td>
       <td><b>{props.rates}</b><Rate>/night</Rate></td>

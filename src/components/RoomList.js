@@ -2,7 +2,7 @@ import React , { useEffect, useState } from "react";
 import RoomItem from '../components/RoomItem';
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchRooms, occupiedRooms, freeRooms } from '../features/roomSlice';
+import { fetchRooms} from '../features/roomSlice';
 import Pagination from "react-js-pagination";
 import { Link } from "react-router-dom";
 
@@ -109,7 +109,7 @@ const PaginWrapper = styled.div`
 `
 
 export default function RoomList({title}) {
-
+  
   const [filter, setFilter] = useState(0);
   const dispatch = useDispatch();
 

@@ -184,9 +184,6 @@ export default function GuestList({title}) {
           <li 
             onClick={() => handleFilterChange(3)}
             className = {filter === 3 ? 'active' : null}>Pending</li>
-          <li 
-            onClick={() => handleFilterChange(4)}
-            className = {filter === 4 ? 'active' : null}>Search Guest</li>
         </ul>
         <div>
           <button>Date to Date</button>
