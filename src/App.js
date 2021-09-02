@@ -11,6 +11,7 @@ import ReviewList from './components/ReviewList';
 import Review from './components/Review';
 import Login from './components/Login';
 import Room from './components/Room';
+import NewRoom from './components/NewRoom';
 import PrivateRoute from './components/PrivateRoute';
 import HorizontalBar from './components/HorizontalBar';
 import Register from './components/Register';
@@ -21,6 +22,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { useState, useEffect, createContext } from 'react';
+
 
 /* STYLED COMPONENTS */
 
@@ -36,6 +38,7 @@ const HeaderTableWrapper = styled.div`
 export const AuthContext = createContext();
 
 function App() {
+
 
   const [authenticated, setAuthenticated] = useState(false);
   const [title,setTitle] = useState('Dashboard');
@@ -83,6 +86,10 @@ function App() {
                 <PrivateRoute exact path="/roomlist">
                   <RoomList title={handleTitle} />
                 </PrivateRoute> 
+
+                <PrivateRoute exact path="/roomlist/newroom">
+                  <NewRoom title={handleTitle} />
+                </PrivateRoute>
 
                 <PrivateRoute exact path="/booking"> 
                   <GuestList title={handleTitle} />
@@ -132,6 +139,7 @@ function App() {
             </HeaderTableWrapper>
           </Router>
         </AuthContext.Provider>
+        
       </ContentWrapper>
     </div>
   );
