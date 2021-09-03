@@ -1,11 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Logo from './Logo';
+
+const LogoWrapper = styled.div`
+  background: white;
+  display:flex;
+  justify-content: center;
+`
 
 const  FormStyled = styled.form`
 	font-family: 'Poppins';
 	background: white;
 	width: 30%;
+	min-width: 300px;
 	padding: 30px 50px;
 	box-shadow: 0px 4px 4px #00000005;
 	border-radius: 20px;
@@ -14,7 +22,7 @@ const  FormStyled = styled.form`
 	grid-template-columns: 1fr 1fr;
 	grid-gap: 20px;
 	position: relative;
-	top: 20vh;
+	top: 10vh;
 	label {
 		color: #135846;
 	}
@@ -26,11 +34,12 @@ const Title = styled.h1 `
 const SInput = styled.input `
 	background: #F8F8F8;
 	border: none;
-	border: 2px solid #135846;
+	border: 2px solid grey;
 	border-radius: 12px;
-	padding: 4px 6px;
+	padding: 8px 12px;
 	&:focus {
-		outline : solid #135846;
+		outline : none;
+	border-color: #135846;
 	}
 `
 const FormButton = styled.input `
@@ -62,6 +71,7 @@ export default function Register(props) {
   
   return (
     <>
+	<LogoWrapper> <Logo /></LogoWrapper>
     <FormStyled>
 			<Title>Register</Title>
 				
