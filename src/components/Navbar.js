@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../App.js';
 import styled from "styled-components";
-import {
-  NavLink
-} from "react-router-dom";
-import {FaHotel} from 'react-icons/fa';
+import { NavLink } from "react-router-dom";
+import { MdDashboard, MdVpnKey, MdEventNote } from "react-icons/md";
+import { IoPersonSharp } from "react-icons/io5";
+import { BiMessageCheck } from "react-icons/bi";
+import Logo from './Logo';
 
 const activeClassName = 'nav-item-active'
 
@@ -12,50 +13,37 @@ const VerticalBar = styled.aside`
   box-shadow: 13px 3px 40px #00000005;
   background-color: white;
   color: #799283;
-  font-size: 18px;
   width: 18%;
-  font-family: 'Poppins'
-`;
-
+  min-height: 100vh;
+  @media (max-width: 1000px) {
+    position: fixed;
+    width: 100%;
+  }
+`
 const NavWrapper = styled.div `
-  position: sticky;
-  top:0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 100vh;
-`;
-
-const LogoTitle = styled.div `
-  width: 67%;
-  height: 80px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  h1 {
-    color: black;
-    font-size: 24px;
-  }
-  p {
-    color: #5D5449;
-    font-size: 10px;
-    font-family: 'Poppins', sans-serif;
-  }
-`;
-
+  position: sticky;
+  top:0;
+`
 const StyledNav = styled.nav`
   width: 100%;
   margin-top: 10%;
   flex: 1;
-`;
-
-const StyledList = styled.li `
-  height: 60px;
-  line-height: 60px;
-  font-size: 18px;
-`;
-
+  ul {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    li {
+      height: 60px;
+      line-height: 60px;
+      font-size: 18px;
+      width: 100%;
+    }
+  }
+`
 const StyledNavLink = styled(NavLink).attrs({ activeClassName })`
   text-decoration: none;
   color: #799283;
@@ -63,15 +51,18 @@ const StyledNavLink = styled(NavLink).attrs({ activeClassName })`
   width: 100%;
   display:flex;
   align-items: center;
-  justify-content: flex-start;
-  font-family: 'Poppins', sans-serif;
+  svg {
+    flex: 0.5;
+  }
+  p {
+    flex: 1;
+  }
   &.${activeClassName} {
     color: red;
     font-weight:bold;
     border-left: 3px solid red;
   }
-`;
-
+`
 const Contact = styled.div `
   box-shadow: 0px 20px 30px #00000014;
   border-radius: 16px;
@@ -87,8 +78,17 @@ const Contact = styled.div `
     font-size: 16px;
     color: black;
   }
+  button {
+    padding: 14px 40px;
+    background: #EBF1EF;
+    border-radius: 8px;
+    border: none;
+    margin-top: 16px;
+  }
+  @media (max-width: 1000px) {
+    visibility: hidden;
+  }
 `
-
 const Picture = styled.div `
   width: 55px;
   height: 55px;
@@ -96,91 +96,68 @@ const Picture = styled.div `
   border-radius: 8px;
   position: relative;
   top: 22px;
-  
+  @media (max-width: 1000px) {
+    visibility: hidden;
+  }
 `
-const StyledButton = styled.button `
-  padding: 14px 40px;
-  background: #EBF1EF;
-  border-radius: 8px;
-  border: none;
-  margin-top: 16px;
-`
-
 const PFooter = styled.div `
-
   color: #212121;
   font-size: 14px;
   width: 80%;
-    p {
-      font-size: 12px;
-    }
+  p:nth-of-type(1) {
+    font-size: 12px;
+  }
+  p:nth-of-type(2){
+    margin-top: 40px;
+    color: #799283;
+    font-size: 14px;
+  }
+  @media (max-width: 1000px) {
+    visibility: hidden;
+  }
 `
-
-const MB = styled.p `
-
-  margin-top: 40px;
-  color: #799283;
-  font-size: 14px;
-  `
 
 export default function Navbar(props) {
   
   const value = useContext(AuthContext);
-  
+
+  function handleNavBar(){
+    if (window.innerWidth <= 1000){
+      props.handleNavBar();
+      document.body.classList.remove('noscroll');
+    }
+  }
+
   return (
     <>
     <VerticalBar>
       <NavWrapper>
-      
-        <LogoTitle>
-          <FaHotel size={32} color={'#135846'} />
-          <div>
-            <h1>travl</h1>
-            <p>Hotel Admin Dashboard</p>
-          </div>
-        </LogoTitle>
-        
-        {value ?
-        <>     
-          <StyledNav>
-            <ul>
-              <StyledList><StyledNavLink to="/dashboard"><span className="material-icons"> dashboard </span>Dashboard</StyledNavLink></StyledList>
+        <Logo />
+        <StyledNav>
+          <ul>
+            <li><StyledNavLink to="/dashboard" onClick={handleNavBar}><MdDashboard size={24} /><p>Dashboard</p></StyledNavLink></li>
 
-              <StyledList><StyledNavLink to="/roomlist"><span className="material-icons"> vpn_key </span>Rooms</StyledNavLink></StyledList>
+            <li><StyledNavLink to="/roomlist" onClick={handleNavBar}><MdVpnKey size={24} /><p>Rooms</p></StyledNavLink></li>
 
-              <StyledList><StyledNavLink to="/booking"><span className="material-icons"> event_note </span>Booking</StyledNavLink></StyledList>
-                
-              <StyledList><StyledNavLink to="/conciergelist"><span className="material-icons"> person_outline </span>Concierge</StyledNavLink></StyledList>
-                
-              <StyledList><StyledNavLink to="/reviews"><span className="material-icons"> grading </span>Reviews</StyledNavLink></StyledList>
-                
-            </ul>
-          </StyledNav>
-          <Picture></Picture>
-          <Contact>
-            <h3>Benoit Laguerre</h3>
-            <p>be.laguerre@gmail.com</p>
-            <StyledButton>Edit</StyledButton>
-          </Contact>
-        </>
-        : <StyledNav>
-            <ul>
-              <StyledList><StyledNavLink to="/login"><span className="material-icons">
-              login</span>Login</StyledNavLink></StyledList>
+            <li><StyledNavLink to="/booking" onClick={handleNavBar}><MdEventNote size={24} /><p>Bookings</p></StyledNavLink></li>
               
-              <StyledList><StyledNavLink to="/register"><span className="material-icons">
-              app_registration </span>Register</StyledNavLink></StyledList>
-             
-            </ul>
-          </StyledNav>}
-
+            <li><StyledNavLink to="/conciergelist" onClick={handleNavBar}><IoPersonSharp size={24}/><p>Concierges</p></StyledNavLink></li>
+              
+            <li><StyledNavLink to="/reviews" onClick={handleNavBar}><BiMessageCheck size={24}/><p>Reviews</p></StyledNavLink></li>
+              
+          </ul>
+        </StyledNav>
+        <Picture></Picture>
+        <Contact>
+          <h3>Benoit Laguerre</h3>
+          <p>be.laguerre@gmail.com</p>
+          <button>Edit</button>
+        </Contact>
         <PFooter>
           <h4>Travl Hotel Admin Dashboard</h4>
           <p>© 2020 All Rights Reserved</p>
-          <MB>Made by Benoit Laguerre</MB>
+          <p>Made by Benoit Laguerre</p>
         </PFooter>
-        
-      
       </NavWrapper>
     </VerticalBar>
     </>

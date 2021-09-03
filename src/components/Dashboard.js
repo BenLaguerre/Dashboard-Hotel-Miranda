@@ -122,6 +122,7 @@ const ChartWrapper = styled.div`
     font-family: 'Poppins';
     font-size: 12px;
     color: #6E6E6E;
+    opacity: 0.5;
   }
 `
 export default function Dashboard({title}) {
@@ -131,6 +132,7 @@ export default function Dashboard({title}) {
   const changeDate = (e) => {
     setDate(e)
   }
+  
   useEffect(() => {
     title("Dashboard")
   }, [title]); 
@@ -139,10 +141,10 @@ export default function Dashboard({title}) {
     <>
     <DashWrapper>
       <KpiWrapper>
-        <KPI><Bed size={32} /><Number><h2>8,461</h2><p>New Booking</p></Number></KPI>
-        <KPI><Booking size={32} /><Number><h2>963</h2><p>Scheduled Room</p></Number></KPI>
-        <KPI><Login size={32} /><Number><h2>753</h2><p>Check In</p></Number></KPI>
-        <KPI><Logout size={32} /><Number><h2>516</h2><p>Check Out</p></Number></KPI>
+        <KPI><Bed size={32} /><Number><h2>61</h2><p>New Bookings</p></Number></KPI>
+        <KPI><Booking size={32} /><Number><h2>33</h2><p>Scheduled Room</p></Number></KPI>
+        <KPI><Login size={32} /><Number><h2>23</h2><p>Check In</p></Number></KPI>
+        <KPI><Logout size={32} /><Number><h2>18</h2><p>Check Out</p></Number></KPI>
       </KpiWrapper>
       <CalendarWrapper>
         <p>Recent Booking Schedule</p>

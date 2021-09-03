@@ -1,6 +1,5 @@
 import React , { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { addRoom } from '../features/roomSlice';
 import { useHistory } from "react-router-dom";
@@ -26,8 +25,7 @@ const  FormStyled = styled.form`
 		border: 2px solid #135846;
 		padding: 4px 6px;
 	}
-`;
-
+`
 const Title = styled.h1 `
 	text-align: center;
 	grid-column: 1/3;
@@ -60,38 +58,39 @@ const FormButton = styled.input `
 `
 
 export default function NewRoom({title}) {
+	
 	let history = useHistory(); 
   let { from } = { from: { pathname: "/roomList" } };
 
-		const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-    useEffect(() => {
-			title("New Room")
-		}, [title]);
+	useEffect(() => {
+		title("New Room")
+	}, [title]);
   
-		const [nameInput, setNameInput] = useState();
- 		const [roomType, setRoomType] = useState('Deluxe A'); 
- 		const [bedType, setBedType] = useState('Double Bed'); 
- 		const [price, setPrice] = useState(); 
- 		const [discount, setDiscount] = useState(); 
+	const [nameInput, setNameInput] = useState();
+	const [roomType, setRoomType] = useState('Deluxe A'); 
+	const [bedType, setBedType] = useState('Double Bed'); 
+	const [price, setPrice] = useState(); 
+	const [discount, setDiscount] = useState(); 
+
+	const [check, setCheck] = useState(true);
 	
-		const [check, setCheck] = useState(true);
-		
-		const handleNameChange = (e) => {
-			setNameInput(e.target.value);
-		}
-		const handleTypeChange = (e) => {
-			setRoomType(e.target.value);
-		}
-		const handleBedChange = (e) => {
-			setBedType(e.target.value);
-		}
-		const handlePriceChange = (e) => {
-			setPrice(e.target.value);
-		}
-		const handleDiscountChange = (e) => {
-			setDiscount(e.target.value);
-		}
+	const handleNameChange = (e) => {
+		setNameInput(e.target.value);
+	}
+	const handleTypeChange = (e) => {
+		setRoomType(e.target.value);
+	}
+	const handleBedChange = (e) => {
+		setBedType(e.target.value);
+	}
+	const handlePriceChange = (e) => {
+		setPrice(e.target.value);
+	}
+	const handleDiscountChange = (e) => {
+		setDiscount(e.target.value);
+	}
 
 	const handleNewRoomSubmit = (e) => {
 		e.preventDefault();
@@ -108,7 +107,6 @@ export default function NewRoom({title}) {
 			}
 			history.replace(from);
 		dispatch(addRoom(newRoom))
-		
 		}	
 	}
 

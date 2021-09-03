@@ -23,27 +23,31 @@ import {
 } from "react-router-dom";
 import { useState, useEffect, createContext } from 'react';
 
-
 /* STYLED COMPONENTS */
 
 const ContentWrapper = styled.div`
  display: flex;
-`;
-
+`
 const HeaderTableWrapper = styled.div`
  flex:1
-`;
+`
 
 /* FUNCTION APP */
 export const AuthContext = createContext();
 
 function App() {
 
-
   const [authenticated, setAuthenticated] = useState(false);
   const [title,setTitle] = useState('Dashboard');
-  const [navon,setNavon] = useState(true);
+  const [navon,setNavon] = useState( window.innerWidth >= 1000);
+  
   let storage = localStorage.getItem('authenticated');
+
+  useEffect(() => {
+    if (localStorage.getItem('authenticated')) {
+      setAuthenticated(true);
+    }
+  }, []); 
 
   const handleNavBar = () => {
     setNavon(!navon);
@@ -52,12 +56,6 @@ function App() {
   const handleTitle = name => {
     setTitle(name);
   }
-  
-  useEffect(() => {
-    if (localStorage.getItem('authenticated')) {
-      setAuthenticated(true);
-    }
-  }, []); 
   
   const authenticate = loggedIn => {
     setAuthenticated(loggedIn);
@@ -74,8 +72,8 @@ function App() {
       <ContentWrapper> 
         <AuthContext.Provider value={storage}>
           <Router>
-            {navon ?
-            <Navbar /> : null
+            {navon && authenticated ?
+            <Navbar handleNavBar= {handleNavBar} /> : null
             }
            
             <HeaderTableWrapper>
