@@ -27,6 +27,10 @@ import { useState, useEffect, createContext } from 'react';
 
 const ContentWrapper = styled.div`
  display: flex;
+ min-height: 100vh;
+ @media (max-width: 930px) {
+  overflow-y: hidden;
+}
 `
 const HeaderTableWrapper = styled.div`
  flex:1
@@ -70,6 +74,9 @@ function App() {
     }
   }
 
+  const handleLoginNavBar = () => {
+    setNavon(false)
+  }
   const handleTitle = name => {
     setTitle(name);
   }
@@ -90,7 +97,7 @@ function App() {
         <AuthContext.Provider value={storage}>
           <Router>
             {navon && authenticated ?
-            <Navbar handleNavBar= {handleNavBar} /> : null
+            <Navbar handleNavBar={handleNavBar} navon={navon} /> : null
             }
            
             <HeaderTableWrapper>
@@ -119,7 +126,7 @@ function App() {
                 </PrivateRoute>
 
                 <Route exact path="/login">{!authenticated ?
-                  <Login authenticate={authenticate} />  : <Redirect to="/dashboard" />}
+                  <Login authenticate={authenticate} loginNavBar={handleLoginNavBar}/>  : <Redirect to="/dashboard" />}
                 </Route>
 
                 <Route exact path="/register">{!authenticated ?

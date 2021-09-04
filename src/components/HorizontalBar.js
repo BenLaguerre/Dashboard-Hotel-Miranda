@@ -12,11 +12,15 @@ const BarWrapper = styled.div`
   align-items: center;
   flex: 1;
   box-shadow: 0px 3px 10px #00000005;
-  height: 80px;
   position: sticky;
   top: 0;
-  padding: 0 5% 0 5%;
   z-index: 1;
+  padding: 1% 5% 1% 5%;
+  @media (max-width: 930px) {
+    width: 100vw;
+    justify-content: normal;
+    gap: 10%;
+  }
   div {
     display:flex;
     justify-content: space-between;
@@ -24,6 +28,9 @@ const BarWrapper = styled.div`
     align-items: center;
     h1 {
       font: 300 28px Poppins;
+    }
+    @media (max-width: 930px) {
+      gap:0;
     }
   }
 `
@@ -63,11 +70,10 @@ export default function HorizontalBar(props) {
         <h1>{props.name}</h1>
       </div>
       <div>
-        <Mail size={32} />
-        <Bell size={32} />
+        <Mail size={26} />
+        <Bell size={26} />
         <Disconnect authenticate={authenticate}/>
       </div>
-
     </BarWrapper>
     </>
   );

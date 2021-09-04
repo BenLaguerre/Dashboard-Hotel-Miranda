@@ -138,7 +138,7 @@ export default function GuestList({title}) {
   dateChosen = dateChosen.getTime();
 
   useEffect(() => {
-    title("Booking")
+    title("Bookings")
     dispatch(fetchGuests({page: activePage, filt : filter, date: dateChosen}));
   }, []);
 
@@ -217,7 +217,7 @@ export default function GuestList({title}) {
             onChange={handlePageChange}
             prevPageText='Prev'
             nextPageText='Next'
-            hideFirstLastPages= 'true'
+            hideFirstLastPages= {true}
             itemClassNext= 'next'
             itemClassPrev= 'prev'
           />

@@ -118,7 +118,7 @@ export default function RoomList({title}) {
   const totalItem = 25;
 
   useEffect(() => {
-    title("Room List")
+    title("Rooms")
     dispatch(fetchRooms({page: activePage, filt : filter}));
   }, []);
 

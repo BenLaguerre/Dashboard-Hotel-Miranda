@@ -26,14 +26,14 @@ const CheckBox= styled.th `
 
 export default function ConciergeList({title}) {
   useEffect(() => {
-    title("Concierge List")
+    title("Concierges")
   }, [title]);
  
   const conciergeData = useSelector(state => state.conciergeList.newConciergeList); 
 
   const newConciergeList = conciergeData.map (data =>
     (<TRow key={data.key}><ConciergeItem  id={data.id} index={data.index} firstName={data.fistName} lastName={data.lastName} job={data.job} start={data.starts} end={data.ends} contact={data.contact} /></TRow> ));
-
+  
   return (
         <>
         

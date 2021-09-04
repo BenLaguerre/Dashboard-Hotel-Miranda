@@ -95,7 +95,7 @@ export default function Login(props) {
   const handlePasswordChange = (e) => {
     setPasswordInput(e.target.value);
   }
-  
+
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     let hardcodedLogs = {
@@ -104,6 +104,7 @@ export default function Login(props) {
       }
     if ((loginInput === hardcodedLogs.login) && (passwordInput === hardcodedLogs.password)) {
       props.authenticate(true);
+      props.loginNavBar()
       history.replace(from);
       setComb(true);
       

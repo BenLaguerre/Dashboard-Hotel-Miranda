@@ -27,6 +27,10 @@ const NavWrapper = styled.div `
   justify-content: space-between;
   position: sticky;
   top:0;
+  @media (max-width: 930px) {
+    box-sizing: border-box;
+    padding-top: 20%;
+  }
 `
 const StyledNav = styled.nav`
   width: 100%;
@@ -53,6 +57,9 @@ const StyledNavLink = styled(NavLink).attrs({ activeClassName })`
   align-items: center;
   svg {
     flex: 0.5;
+    @media (max-width: 930px) {
+      padding-left: 8%;
+    }
   }
   p {
     flex: 1;
@@ -120,7 +127,7 @@ const PFooter = styled.div `
 export default function Navbar(props) {
   
   const value = useContext(AuthContext);
-
+ console.log(props.navon)
   function handleNavBar(){
     if (window.innerWidth <= 930){
       props.handleNavBar();
@@ -132,7 +139,7 @@ export default function Navbar(props) {
     <>
     <VerticalBar>
       <NavWrapper>
-        <Logo />
+        {props.navon && window.innerWidth <= 930 ? null : <Logo /> }
         <StyledNav>
           <ul>
             <li><StyledNavLink to="/dashboard" onClick={handleNavBar}><MdDashboard size={24} /><p>Dashboard</p></StyledNavLink></li>
