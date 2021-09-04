@@ -15,7 +15,7 @@ const VerticalBar = styled.aside`
   color: #799283;
   width: 18%;
   min-height: 100vh;
-  @media (max-width: 1000px) {
+  @media (max-width: 930px) {
     position: fixed;
     width: 100%;
   }
@@ -85,7 +85,7 @@ const Contact = styled.div `
     border: none;
     margin-top: 16px;
   }
-  @media (max-width: 1000px) {
+  @media (max-width: 930px) {
     visibility: hidden;
   }
 `
@@ -96,7 +96,7 @@ const Picture = styled.div `
   border-radius: 8px;
   position: relative;
   top: 22px;
-  @media (max-width: 1000px) {
+  @media (max-width: 930px) {
     visibility: hidden;
   }
 `
@@ -112,7 +112,7 @@ const PFooter = styled.div `
     color: #799283;
     font-size: 14px;
   }
-  @media (max-width: 1000px) {
+  @media (max-width: 930px) {
     visibility: hidden;
   }
 `
@@ -122,7 +122,7 @@ export default function Navbar(props) {
   const value = useContext(AuthContext);
 
   function handleNavBar(){
-    if (window.innerWidth <= 1000){
+    if (window.innerWidth <= 930){
       props.handleNavBar();
       document.body.classList.remove('noscroll');
     }

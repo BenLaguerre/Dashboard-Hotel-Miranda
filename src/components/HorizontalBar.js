@@ -50,13 +50,6 @@ export default function HorizontalBar(props) {
   
   function hideMenu (){
     props.handleNavBar()
-    if (window.innerWidth <= 1000 ) { 
-      if ( document.body.classList.value === 'noscroll'){
-        document.body.classList.remove('noscroll');
-      }else {
-        document.body.classList.add('noscroll');
-      }
-    }
   }
   function authenticate (){
     props.authenticate()

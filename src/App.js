@@ -39,11 +39,17 @@ function App() {
 
   const [authenticated, setAuthenticated] = useState(false);
   const [title,setTitle] = useState('Dashboard');
-  const [navon,setNavon] = useState( window.innerWidth >= 1000);
+  const [navon,setNavon] = useState(  window.innerWidth > 930);
   
   let storage = localStorage.getItem('authenticated');
-
+  
   useEffect(() => {
+    function handleResize() {
+      window.innerWidth <= 930 ? setNavon(false) : setNavon(true);
+      document.body.classList.remove('noscroll');
+    }
+    window.addEventListener('resize', handleResize)
+
     if (localStorage.getItem('authenticated')) {
       setAuthenticated(true);
     }
@@ -51,6 +57,17 @@ function App() {
 
   const handleNavBar = () => {
     setNavon(!navon);
+    if (!navon){
+      if (window.innerWidth <= 930 ) { 
+        if ( document.body.classList.value === 'noscroll'){
+          document.body.classList.remove('noscroll');
+        }else {
+          document.body.classList.add('noscroll');
+        }
+      }
+    }else {
+      document.body.classList.remove('noscroll');
+    }
   }
 
   const handleTitle = name => {
