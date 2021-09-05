@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 
 const  FormStyled = styled.form`
 	font-family: 'Poppins';
-  background: white;
+  	background: white;
 	width: 30%;
 	padding: 30px 50px;
 	box-shadow: 0px 4px 4px #00000005;
@@ -23,7 +23,7 @@ const  FormStyled = styled.form`
 		background: #F8F8F8;
 		border-radius: 12px;
 		border: 2px solid #135846;
-		padding: 4px 6px;
+		padding: 8px 12px;
 	}
 `
 const Title = styled.h1 `
@@ -35,9 +35,10 @@ const SInput = styled.input `
 	border: none;
 	border: 2px solid #135846;
 	border-radius: 12px;
-	padding: 4px 6px;
+	padding: 8px 12px;
 	&:focus {
-		outline : solid #135846;
+		outline : none;
+    	border-color: #135846;
 	}
 `
 const FormButton = styled.input `

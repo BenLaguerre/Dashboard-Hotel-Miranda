@@ -104,7 +104,7 @@ export default function Login(props) {
       }
     if ((loginInput === hardcodedLogs.login) && (passwordInput === hardcodedLogs.password)) {
       props.authenticate(true);
-      props.loginNavBar()
+      //props.loginNavBar()
       history.replace(from);
       setComb(true);
       

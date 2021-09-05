@@ -164,7 +164,7 @@ export default function ConciergeList({title}) {
               onClick={() => handleFilterChange(2)}
               className = {filter === 2 ? 'active' : null}>Inactive Employee</li>
           </ul>
-          <StyledLink to={`/roomlist/newroom`}>+ New Employee</StyledLink>
+          <StyledLink to={`/conciergelist/newconcierge`}>+ New Employee</StyledLink>
         </PreTable>
         <div>
           <TableStyle>

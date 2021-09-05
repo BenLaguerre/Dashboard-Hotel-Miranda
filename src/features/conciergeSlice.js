@@ -50,22 +50,37 @@ export const conciergeSlice = createSlice ({
     deleteConcierge: (state, id) => {      
       state.conciergeList = state.conciergeList.filter(item=> item.index+1 !== id.payload).map ((item,index) => 
       
-          ({ 
-            key: item.key, 
-            id: item.id, 
-            index: index,
-            name: item.name,
-            joinDate: item.joinDate, 
-            job: item.job, 
-            phone: item.phone, 
-            status: item.status
-          })
-        
-      )}
+        ({ 
+          key: item.key, 
+          id: item.id, 
+          index: index,
+          name: item.name,
+          joinDate: item.joinDate, 
+          job: item.job, 
+          phone: item.phone, 
+          status: item.status
+        })
+      
+    )},
+
+    addConcierge: (state, newConcierge) => {   
+      conciergesMap.push(newConcierge.payload);
+      state.conciergeList = state.conciergeList.map((item,index) => 
+      ({ 
+        key: item.key, 
+        id: item.id, 
+        index: index,
+        name: item.name,
+        joinDate: item.joinDate, 
+        job: item.job, 
+        phone: item.phone, 
+        status: item.status
+      })
+    )},
   }
 }
 )
  
-export const {  fetchConcierge, deleteConcierge }  = conciergeSlice.actions
+export const {  fetchConcierge, deleteConcierge, addConcierge }  = conciergeSlice.actions
  
 export default conciergeSlice.reducer

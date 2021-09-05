@@ -6,6 +6,7 @@ import Guest from './components/Guest'
 import Dashboard from './components/Dashboard';
 import ConciergeList from './components/ConciergeList';
 import Concierge from './components/Concierge';
+import NewConcierge from './components/NewConcierge';
 import Navbar from './components/Navbar';
 import ReviewList from './components/ReviewList';
 import Review from './components/Review';
@@ -74,9 +75,6 @@ function App() {
     }
   }
 
-  const handleLoginNavBar = () => {
-    setNavon(false)
-  }
   const handleTitle = name => {
     setTitle(name);
   }
@@ -121,12 +119,16 @@ function App() {
                   <ConciergeList title={handleTitle} />
                 </PrivateRoute>
 
+                <PrivateRoute exact path="/conciergelist/newconcierge">
+                  <NewConcierge title={handleTitle} />
+                </PrivateRoute>
+
                 <PrivateRoute exact path="/reviews">
                   <ReviewList title={handleTitle} />
                 </PrivateRoute>
 
                 <Route exact path="/login">{!authenticated ?
-                  <Login authenticate={authenticate} loginNavBar={handleLoginNavBar}/>  : <Redirect to="/dashboard" />}
+                  <Login authenticate={authenticate} />  : <Redirect to="/dashboard" />}
                 </Route>
 
                 <Route exact path="/register">{!authenticated ?
