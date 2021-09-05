@@ -7,28 +7,28 @@ import Pagination from "react-js-pagination";
 import { Link } from "react-router-dom";
 
 const PreTable = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 90%;
+  margin: 40px auto 20px auto;
+  ul {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    width: 90%;
-    margin: 40px auto 20px auto;
-    ul {
-      display: flex;
-      li {
-        color: #6E6E6E;
-        border-bottom: solid 2px #D4D4D4;
-        padding-right: 2em;
-        padding-left: 1em;
-        &:hover {
-          cursor: pointer;
-        }
-      }
-      .active {
-        color: #135846;
-        border-bottom: solid 2px #135846;
+    li {
+      color: #6E6E6E;
+      border-bottom: solid 2px #D4D4D4;
+      padding-right: 2em;
+      padding-left: 1em;
+      &:hover {
+        cursor: pointer;
       }
     }
-  `
+    .active {
+      color: #135846;
+      border-bottom: solid 2px #135846;
+    }
+  }
+`
 const StyledLink= styled(Link)`
   text-decoration: none;
   width: 14%;

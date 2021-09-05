@@ -129,7 +129,6 @@ export default function Room({title}) {
 
   useEffect(() => {
     dispatch(fetchRooms({page: (Math.ceil(id/10)), filt : 0}));
-    console.log(Math.floor((id-1)/10))
   }, []);
 
   const roomInfo = useSelector(state => state.roomList.roomList[indice]);
