@@ -1,8 +1,8 @@
 # Hotel Miranda Dashboard
 
-This is an application to manage the various datas of Hotel Miranda.
+Application to manage Hotel Miranda's Data.
 
-Said datas include information about bookings, rooms, employees of the hotel and customer's reviews.
+Said Data include information about bookings, rooms, employees of the hotel and customer's reviews.
 
 ## Installation
 
