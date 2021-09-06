@@ -14,7 +14,7 @@ export default function Review(props) {
     history.goBack();
   }
 
-  const reviewInfo = useSelector(state => state.reviewList.newReviewList[id-1]);
+  const reviewInfo = useSelector(state => state.reviewList.reviewList[id-1]);
  
   return (
     <> 

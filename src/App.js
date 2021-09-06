@@ -6,11 +6,13 @@ import Guest from './components/Guest'
 import Dashboard from './components/Dashboard';
 import ConciergeList from './components/ConciergeList';
 import Concierge from './components/Concierge';
+import NewConcierge from './components/NewConcierge';
 import Navbar from './components/Navbar';
 import ReviewList from './components/ReviewList';
 import Review from './components/Review';
 import Login from './components/Login';
 import Room from './components/Room';
+import NewRoom from './components/NewRoom';
 import PrivateRoute from './components/PrivateRoute';
 import HorizontalBar from './components/HorizontalBar';
 import Register from './components/Register';
@@ -26,11 +28,14 @@ import { useState, useEffect, createContext } from 'react';
 
 const ContentWrapper = styled.div`
  display: flex;
-`;
-
+ min-height: 100vh;
+ @media (max-width: 930px) {
+  overflow-y: hidden;
+}
+`
 const HeaderTableWrapper = styled.div`
  flex:1
-`;
+`
 
 /* FUNCTION APP */
 export const AuthContext = createContext();
@@ -39,22 +44,40 @@ function App() {
 
   const [authenticated, setAuthenticated] = useState(false);
   const [title,setTitle] = useState('Dashboard');
-  const [navon,setNavon] = useState(true);
+  const [navon,setNavon] = useState(  window.innerWidth > 930);
+  
   let storage = localStorage.getItem('authenticated');
+  
+  useEffect(() => {
+    function handleResize() {
+      window.innerWidth <= 930 ? setNavon(false) : setNavon(true);
+      document.body.classList.remove('noscroll');
+    }
+    window.addEventListener('resize', handleResize)
+
+    if (localStorage.getItem('authenticated')) {
+      setAuthenticated(true);
+    }
+  }, []); 
 
   const handleNavBar = () => {
     setNavon(!navon);
+    if (!navon){
+      if (window.innerWidth <= 930 ) { 
+        if ( document.body.classList.value === 'noscroll'){
+          document.body.classList.remove('noscroll');
+        }else {
+          document.body.classList.add('noscroll');
+        }
+      }
+    }else {
+      document.body.classList.remove('noscroll');
+    }
   }
 
   const handleTitle = name => {
     setTitle(name);
   }
-  
-  useEffect(() => {
-    if (localStorage.getItem('authenticated')) {
-      setAuthenticated(true);
-    }
-  }, []); 
   
   const authenticate = loggedIn => {
     setAuthenticated(loggedIn);
@@ -71,8 +94,8 @@ function App() {
       <ContentWrapper> 
         <AuthContext.Provider value={storage}>
           <Router>
-            {navon ?
-            <Navbar /> : null
+            {navon && authenticated ?
+            <Navbar handleNavBar={handleNavBar} navon={navon} /> : null
             }
            
             <HeaderTableWrapper>
@@ -84,12 +107,20 @@ function App() {
                   <RoomList title={handleTitle} />
                 </PrivateRoute> 
 
+                <PrivateRoute exact path="/roomlist/newroom">
+                  <NewRoom title={handleTitle} />
+                </PrivateRoute>
+
                 <PrivateRoute exact path="/booking"> 
                   <GuestList title={handleTitle} />
                 </PrivateRoute>
 
                 <PrivateRoute exact path="/conciergelist">
                   <ConciergeList title={handleTitle} />
+                </PrivateRoute>
+
+                <PrivateRoute exact path="/conciergelist/newconcierge">
+                  <NewConcierge title={handleTitle} />
                 </PrivateRoute>
 
                 <PrivateRoute exact path="/reviews">
@@ -132,6 +163,7 @@ function App() {
             </HeaderTableWrapper>
           </Router>
         </AuthContext.Provider>
+        
       </ContentWrapper>
     </div>
   );

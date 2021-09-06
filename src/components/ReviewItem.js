@@ -3,10 +3,9 @@ import styled from "styled-components";
 import { useDrag, useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 import { Link } from "react-router-dom";
+import { convertDate } from './GuestItem';
 
 const style = {
-	border: '1px dashed gray',
-	
 	marginBottom: '.5rem',
 	backgroundColor: 'white',
 	cursor: 'move',
@@ -15,10 +14,20 @@ const style = {
 const TRow = styled.tr `
   height: 140px;
   border-bottom: solid #F8F8F8 1px;
+	vertical-align: top;
+	td {
+		padding-top: 10px;
+	}
+	td:nth-of-type(3){
+		width: 60%;
+	}
 `
-const CheckBox= styled.td `
+const PadTd = styled.td `
   padding-left: 20px;
-`;
+`
+const Date = styled.td `
+  min-width: 14%;
+`
 
 export default function ReviewItem({ id, comment, index, moveCard, date,firstName,lastName,rating }) {
   const ref = useRef(null);
@@ -78,20 +87,16 @@ export default function ReviewItem({ id, comment, index, moveCard, date,firstNam
 	});
 	const opacity = isDragging ? 0 : 1;
 	drag(drop(ref));
-		  
+	
   return (
 	<>
 	<TRow ref={ref}  data-handler-id={handlerId} style={{ ...style, opacity }} >
-	<CheckBox><input type="checkbox"></input></CheckBox>
-	<td><Link to={`/reviews/${id}`}>{id}</Link></td>
-	<td>{date}</td>
-	<td>{firstName} {lastName}</td>
-	<td>{rating}<br /> {comment}</td>
-	<td><button>Publish</button><button>Archive</button></td>
+		<PadTd>{firstName} {lastName} 245-{id}48</PadTd>
+		<Date>{convertDate(date)}</Date>
+		<td>{comment}</td>
+		
 	</TRow>
-	  
 	
 	</>                      
 	);                        
 }   
-
