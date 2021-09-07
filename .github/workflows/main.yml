@@ -4,15 +4,11 @@ name: Staging test
 
 # Controls when the workflow will run
 on:
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron:  '20/15 * * * *'
+  pull_request:
+    branches: [ Staging ]
 
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
   build:
