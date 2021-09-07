@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef} from 'react';
+/*import React, { useState, useEffect, useRef} from 'react';
 import * as d3 from "d3";
 
 export default function ReservationChart() {
@@ -107,5 +107,5 @@ export default function ReservationChart() {
     />
     
   )
-}
+}*/
 
