@@ -6,7 +6,7 @@ name: Staging test
 on:
   project:
     types: [created, updated]
-    branches: [ NoD3 ]
+    branches: [ Staging ]
 
 
   # Allows you to run this workflow manually from the Actions tab
@@ -26,4 +26,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run Test
-        run: npm run test
+         run: |
+          npm ci
+          npm run build
+          npm run test
