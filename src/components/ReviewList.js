@@ -35,6 +35,7 @@ const TableStyle = styled.table`
   border-collapse: collapse;
   width: 90%;
   margin: 0 auto;
+  overflow: hidden;
 `
 const TheadStyle = styled.thead `
   text-align: left;
@@ -98,8 +99,13 @@ export default function ReviewList({title}) {
     title("Reviews")
     dispatch(fetchReviews(activePage))
   }, []);
-
+  
   const reviewData = useSelector(state => state.reviewList.reviewList); 
+  
+  useEffect(() => {
+    if (reviewData)
+    setCards(reviewData)
+  }, [reviewData]);
 
   const [cards, setCards] = useState(reviewData);
   const moveCard = useCallback((dragIndex, hoverIndex) => {
