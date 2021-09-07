@@ -4,7 +4,6 @@ import { IoBedOutline } from "react-icons/io5";
 import { RiCalendarCheckLine } from "react-icons/ri";
 import { BiLogOut, BiLogIn } from "react-icons/bi";
 import Calendar from 'react-calendar';
-import ReservationChart from "../chart/ReservationChart";
 
 const DashWrapper = styled.div`
   margin: 0 auto;
@@ -104,27 +103,7 @@ const CalendarWrapper = styled.div`
     align-self: flex-start;
   }
 `
-const ChartWrapper = styled.div`
-  box-shadow: 0px 4px 4px #00000005;
-  flex:1;
-  display:flex;
-  flex-direction: column;
-  align-items:center;
-  border-radius: 20px;
-  background: white;
-  p {
-    margin: 30px 0 30px 40px;
-    color: #393939;
-    font-size: 20px;
-    align-self: flex-start;
-  }
-  svg g {
-    font-family: 'Poppins';
-    font-size: 12px;
-    color: #6E6E6E;
-    opacity: 0.5;
-  }
-`
+
 export default function Dashboard({title}) {
 
   const [activeDate, setDate] = useState([new Date('09/11/2021'), new Date('09/13/2021')]);
@@ -159,12 +138,7 @@ export default function Dashboard({title}) {
           navigationLabel = {({ date, locale}) => date.toLocaleDateString(locale, {year: 'numeric', month: 'long'})}
         />
       </CalendarWrapper>
-      <ChartWrapper>
-        <p>Reservation Stats</p>
-        <ReservationChart />
-      </ChartWrapper>
-      
-      
+     
     </DashWrapper>
     </>
   );
