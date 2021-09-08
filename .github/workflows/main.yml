@@ -1,7 +1,5 @@
 # This is a basic workflow to help you get started with Actions
-
 name: GitHub Pages Deploy Action
-
 # Controls when the workflow will run
 on:
   push:
@@ -19,7 +17,7 @@ jobs:
       - name: Install, Build and Run Test 🔧 
         run: |
           npm install
-          npm run deploy
+          npm run build
           npm run test
 
       - name: Deploy 🚀
