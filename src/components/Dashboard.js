@@ -121,7 +121,7 @@ export default function Dashboard({title}) {
     <DashWrapper>
       <KpiWrapper>
         <KPI><Bed size={32} /><Number><h2>61</h2><p>New Bookings</p></Number></KPI>
-        <KPI><Booking size={32} /><Number><h2>33</h2><p>Scheduled Room</p></Number></KPI>
+        <KPI><Booking size={32} /><Number><h2>46</h2><p>Scheduled Room</p></Number></KPI>
         <KPI><Login size={32} /><Number><h2>23</h2><p>Check In</p></Number></KPI>
         <KPI><Logout size={32} /><Number><h2>18</h2><p>Check Out</p></Number></KPI>
       </KpiWrapper>
