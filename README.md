@@ -1,3 +1,5 @@
+[![CI](https://github.com/BenLaguerre/Dashboard-Hotel-Miranda/actions/workflows/main.yml/badge.svg)](https://github.com/BenLaguerre/Dashboard-Hotel-Miranda/actions/workflows/main.yml)
+
 # Hotel Miranda Dashboard
 
 Application to manage Hotel Miranda's Data.
