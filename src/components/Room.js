@@ -154,7 +154,7 @@ export default function Room({title}) {
         </div>
         <div>
           <h2>{roomInfo.roomName} - {id}</h2>
-          <p>{roomInfo.rates}<Price> /night</Price></p>
+          <p>{roomInfo.rates}€<Price> /night</Price></p>
         </div>
         <Subtitle>Description</Subtitle>
         <div>
@@ -172,9 +172,9 @@ export default function Room({title}) {
         </div>
       </article>
       <aside>
-        {roomInfo.btype === 'Available' ? 
-          <Available>{roomInfo.btype} </Available> :
-          <Booked>{roomInfo.btype}</Booked>
+        {roomInfo.state  ? 
+          <Booked>Booked</Booked> :
+          <Available>Available </Available> 
         } 
       </aside>
     </MainWrapper>

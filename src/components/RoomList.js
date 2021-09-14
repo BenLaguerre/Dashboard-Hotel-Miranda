@@ -119,7 +119,7 @@ export default function RoomList({title}) {
 
   useEffect(() => {
     title("Rooms")
-    dispatch(fetchRooms({page: activePage, filt : filter}));
+    dispatch(fetchRooms());
   }, []);
 
   const roomData = useSelector(state => state.roomList.roomList); 
@@ -132,8 +132,9 @@ export default function RoomList({title}) {
         roomName={data.roomName} 
         bedType={data.bedType} 
         facilities={data.facilities} 
-        rates={data.rates} 
-        buttonType = {data.btype} />
+        rates={data.rates}
+        discount={data.discount} 
+        status = {data.state} />
     </TRow> ));  
 
   const handleFilterChange = newFilter => {

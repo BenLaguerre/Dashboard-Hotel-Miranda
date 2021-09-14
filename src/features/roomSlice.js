@@ -1,8 +1,25 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import roomJSON from '../json/roomJSON.json';
 
 const ROOMS_MULTIPLY = 10;
-let roomsMap = roomJSON.map ((data, index) =>
+
+export const fetchRooms = createAsyncThunk('roomList/fetchRooms', async () => {
+  try {
+    const response = await fetch('http://localhost:3001/rooms', {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjI5NzE5ODk5LCJleHAiOjE2MzIzMTE4OTl9.klo-XtcqmgNAWq7mDRXrnASKafMD-UANT37g0UX_0yg'
+      }
+    })  
+    return await response.json();
+  }catch (err) {
+    console.log(err);
+  }
+})
+
+/*let roomsMap = roomJSON.map ((data, index) =>
   ({
     key: data.id, 
     id: data.id, 
@@ -12,16 +29,18 @@ let roomsMap = roomJSON.map ((data, index) =>
     facilities: data.facilities, 
     rates: data.rates, 
     btype: data.btype
-  }))
+  }))*/
 
 export const roomSlice = createSlice ({
   name: 'roomList',
   initialState:  {
+    status: 'idle',
     roomList : [],
+    error: null
   }
   ,
   
-  reducers: {    
+  reducers: {/*    
     fetchRooms: (state, action) => {
       state.roomList = roomsMap.filter(item => {
         if (action.payload.filt === 1){
@@ -101,12 +120,37 @@ export const roomSlice = createSlice ({
         rates: item.rates, 
         btype: item.btype 
       })
-    )},
+    )},*/
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchRooms.pending, (state, action) => {
+        state.status = 'loading'      
+      })
+      .addCase(fetchRooms.fulfilled, (state, action) => {
+        state.status = 'succeeded'  
+        state.roomList = action.payload.map((data, index) =>
+          ({
+            key: data.id, 
+            id: data.id, 
+            index: index,
+            roomName: data.name,
+            bedType: data.room_type, 
+            facilities: data.service, 
+            rates: data.price, 
+            discount: data.discount_price,
+            state: data.state
+          }))   
+      })
+      .addCase(fetchRooms.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message      
+      })
   }
 }
 )
  
-export const { deleteRoom, fetchRooms, occupiedRooms, freeRooms, addRoom} = roomSlice.actions
+export const { deleteRoom, occupiedRooms, freeRooms, addRoom} = roomSlice.actions
  
 export default roomSlice.reducer
   
