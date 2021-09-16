@@ -153,8 +153,8 @@ export default function Room({title}) {
           <p>Price</p>
         </div>
         <div>
-          <h2>{roomInfo.roomName} - {id}</h2>
-          <p>{roomInfo.rates}€<Price> /night</Price></p>
+          <h2>{roomInfo.name} - {id}</h2>
+          <p>{roomInfo.price}€<Price> /night</Price></p>
         </div>
         <Subtitle>Description</Subtitle>
         <div>
@@ -162,17 +162,17 @@ export default function Room({title}) {
         </div> 
         <Subtitle>Facilities</Subtitle>
         <div>
-          <p>{roomInfo.bedType}</p>
-          <p>{roomInfo.bedType}</p>
-          <p>{roomInfo.facilities}</p>
-          <p>{roomInfo.bedType}</p>
-          <p>{roomInfo.facilities}</p>
-          <p>{roomInfo.facilities}</p>
-          <p>{roomInfo.bedType}</p>
+          <p>{roomInfo.bed}</p>
+          <p>AC</p>
+          <p>Wifi</p>
+          <p>LED TV</p>
+          <p>Coffee Set</p>
+          <p>Shower</p>
+          <p>Towels</p>
         </div>
       </article>
       <aside>
-        {roomInfo.state  ? 
+        {roomInfo.status  ? 
           <Booked>Booked</Booked> :
           <Available>Available </Available> 
         } 

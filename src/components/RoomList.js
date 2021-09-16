@@ -60,7 +60,7 @@ const TheadStyle = styled.thead `
   border-bottom: solid #F8F8F8 2px;
 `
 const TRow = styled.tr `
-  height: 90px;
+  height: 120px;
   border-bottom: solid #F8F8F8 1px;
 `
 const PadTh= styled.th `
@@ -119,22 +119,19 @@ export default function RoomList({title}) {
 
   useEffect(() => {
     title("Rooms")
-    dispatch(fetchRooms());
+    dispatch(fetchRooms({page: 1, filt : filter}));
   }, []);
 
   const roomData = useSelector(state => state.roomList.roomList); 
- 
   const newRoomList = roomData.map (data =>
     (<TRow key={data.key}>
       <RoomItem  
         id={data.id} 
         index={data.index} 
-        roomName={data.roomName} 
-        bedType={data.bedType} 
-        facilities={data.facilities} 
-        rates={data.rates}
-        discount={data.discount} 
-        status = {data.state} />
+        name={data.name} 
+        bed={data.bed} 
+        price={data.price}
+        status = {data.status} />
     </TRow> ));  
 
   const handleFilterChange = newFilter => {
@@ -171,7 +168,6 @@ export default function RoomList({title}) {
             <th>Bed Type</th>
             <th>Facilities</th>
             <th>Rate</th>
-            <th>Discount</th>
             <th>Status</th>
             <th>Delete</th>
           </tr>

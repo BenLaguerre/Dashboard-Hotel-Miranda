@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import roomJSON from '../json/roomJSON.json';
 import {apiRequest} from './apiRequest';
 
 const ROOMS_MULTIPLY = 10;
@@ -7,32 +6,6 @@ const ROOMS_MULTIPLY = 10;
 export const fetchRooms = createAsyncThunk('roomList/fetchRooms', async () => {
   return await apiRequest('rooms','GET')
 })
-    /*try {
-    const response = await fetch('http://localhost:3001/rooms', {
-      method: 'GET',
-      withCredentials: true,
-      credentials: 'include',
-      headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjI5NzE5ODk5LCJleHAiOjE2MzIzMTE4OTl9.klo-XtcqmgNAWq7mDRXrnASKafMD-UANT37g0UX_0yg'
-      }
-    })  
-    return await response.json();
-  }catch (err) {
-    console.log(err);
-  }
-})*/
-
-/*let roomsMap = roomJSON.map ((data, index) =>
-  ({
-    key: data.id, 
-    id: data.id, 
-    index: index,
-    roomName: data.room_name,
-    bedType: data.bed_type, 
-    facilities: data.facilities, 
-    rates: data.rates, 
-    btype: data.btype
-  }))*/
 
 export const roomSlice = createSlice ({
   name: 'roomList',
@@ -132,17 +105,27 @@ export const roomSlice = createSlice ({
       })
       .addCase(fetchRooms.fulfilled, (state, action) => {
         state.status = 'succeeded'  
-        state.roomList = action.payload.map((data, index) =>
+       
+        state.roomList = action.payload.filter(item => {
+          if (action.meta.arg.filt === 1){
+            return item.state === true;
+  
+          } else if (action.meta.arg.filt === 2) {
+            return item.state === false;
+          }
+          
+          return true;
+        
+        }).slice((action.meta.arg.page-1)*ROOMS_MULTIPLY , action.meta.arg.page * ROOMS_MULTIPLY)
+          .map((data, index) =>
           ({
             key: data.id, 
             id: data.id, 
             index: index,
-            roomName: data.name,
-            bedType: data.room_type, 
-            facilities: data.service, 
-            rates: data.price, 
-            discount: data.discount_price,
-            state: data.state
+            name: data.name,
+            bed: data.bed, 
+            price: data.price, 
+            status: data.status
           }))   
       })
       .addCase(fetchRooms.rejected, (state, action) => {

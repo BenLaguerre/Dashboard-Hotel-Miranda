@@ -49,8 +49,6 @@ function App() {
   const [title,setTitle] = useState('Dashboard');
   const [navon,setNavon] = useState(  window.innerWidth > 930);
   
-  let storage = localStorage.getItem('authenticated');
-  
   useEffect(() => {
     function handleResize() {
       window.innerWidth <= 930 ? setNavon(false) : setNavon(true);
@@ -87,7 +85,7 @@ function App() {
       <ContentWrapper> 
         <Router>
           {navon && authenticated ?
-          <Navbar handleNavBar={handleNavBar} navon={navon} /> : null
+          <Navbar handleNavBar={handleNavBar} /> : null
           }
           
           <HeaderTableWrapper>

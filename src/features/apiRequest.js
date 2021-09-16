@@ -1,3 +1,5 @@
+const token = localStorage.getItem('token');
+
 export async function apiRequest (location,method,data = null) {
      try{
       const response = await fetch(`http://localhost:3001/${location}`, {
@@ -5,7 +7,7 @@ export async function apiRequest (location,method,data = null) {
         withCredentials: true,
         credentials: 'include',
         headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjI5NzE5ODk5LCJleHAiOjE2MzIzMTE4OTl9.klo-XtcqmgNAWq7mDRXrnASKafMD-UANT37g0UX_0yg'
+          'Authorization': `Bearer ${token}`
         },
         body: data ? JSON.stringify(data) : null
       })

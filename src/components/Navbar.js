@@ -136,7 +136,7 @@ export default function Navbar(props) {
     <>
     <VerticalBar>
       <NavWrapper>
-        {props.navon && window.innerWidth <= 930 ? null : <Logo /> }
+        {window.innerWidth <= 930 ? null : <Logo /> }
         <StyledNav>
           <ul>
             <li><StyledNavLink to="/dashboard" onClick={handleNavBar}><MdDashboard size={24} /><p>Dashboard</p></StyledNavLink></li>
