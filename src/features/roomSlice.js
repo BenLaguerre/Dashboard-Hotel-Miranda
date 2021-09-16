@@ -1,10 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import roomJSON from '../json/roomJSON.json';
+import {apiRequest} from './apiRequest';
 
 const ROOMS_MULTIPLY = 10;
 
 export const fetchRooms = createAsyncThunk('roomList/fetchRooms', async () => {
-  try {
+  return await apiRequest('rooms','GET')
+})
+    /*try {
     const response = await fetch('http://localhost:3001/rooms', {
       method: 'GET',
       withCredentials: true,
@@ -17,7 +20,7 @@ export const fetchRooms = createAsyncThunk('roomList/fetchRooms', async () => {
   }catch (err) {
     console.log(err);
   }
-})
+})*/
 
 /*let roomsMap = roomJSON.map ((data, index) =>
   ({

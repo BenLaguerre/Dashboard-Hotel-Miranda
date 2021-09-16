@@ -58,9 +58,6 @@ export default function HorizontalBar(props) {
   function hideMenu (){
     props.handleNavBar()
   }
-  function authenticate (){
-    props.authenticate()
-  }
 
   return (
     <>
@@ -72,7 +69,7 @@ export default function HorizontalBar(props) {
       <div>
         <Mail size={26} />
         <Bell size={26} />
-        <Disconnect authenticate={authenticate}/>
+        <Disconnect />
       </div>
     </BarWrapper>
     </>
