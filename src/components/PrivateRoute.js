@@ -3,15 +3,12 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { useSelector } from 'react-redux';
 
 export default function PrivateRoute({ children, ...rest }) {
-  
-  const value =  useSelector(state => state.auth.auth);
-  
+  const authenticated = localStorage.getItem('authenticated');
   return (
         <>
-        <Route {...rest}>{value ? children : <Redirect to="/login" />  }</Route>
+        <Route {...rest}>{authenticated ? children : <Redirect to="/login" />  }</Route>
         </>
     )
 }
