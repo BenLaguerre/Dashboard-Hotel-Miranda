@@ -4,7 +4,7 @@ import {apiRequest} from './apiRequest';
 const ROOMS_MULTIPLY = 10;
 
 export const fetchRooms = createAsyncThunk('roomList/fetchRooms', async () => {
-  return await apiRequest('rooms','GET')
+    return await apiRequest('rooms','GET')
 })
 
 export const roomSlice = createSlice ({
@@ -105,7 +105,6 @@ export const roomSlice = createSlice ({
       })
       .addCase(fetchRooms.fulfilled, (state, action) => {
         state.status = 'succeeded'  
-       
         state.roomList = action.payload.filter(item => {
           if (action.meta.arg.filt === 1){
             return item.state === true;

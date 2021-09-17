@@ -8,9 +8,10 @@ export const authSlice = createSlice ({
   
   reducers: {   
     authenticationHanlder: (state, action) => { 
-			if (action.payload){
+			if (action.payload.status){
 				state.auth = true 
 				localStorage.setItem('authenticated', '1');
+				localStorage.setItem('token',action.payload.token);
 			} else {
 				state.auth = false 
 				localStorage.removeItem('authenticated');

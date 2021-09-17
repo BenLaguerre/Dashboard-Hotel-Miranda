@@ -7,8 +7,8 @@ import { useSelector } from 'react-redux';
 
 export default function PrivateRoute({ children, ...rest }) {
   
-  //const value = useContext(AuthContext);
   const value =  useSelector(state => state.auth.auth);
+  
   return (
         <>
         <Route {...rest}>{value ? children : <Redirect to="/login" />  }</Route>

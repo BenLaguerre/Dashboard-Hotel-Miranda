@@ -14,9 +14,9 @@ export async function apiRequest (location,method,data = null) {
       if (response.ok){
         return await response.json();
       } else{
-        console.log('Network response was not ok')
+        throw new Error ('Network response was not ok')
       }
     }catch (err) {
-      console.log('There has been a problem with your fetch operation:', err);
+      throw new Error('There has been a problem with your fetch operation:');
     }
 }

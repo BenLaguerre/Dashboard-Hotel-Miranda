@@ -57,7 +57,7 @@ function App() {
     window.addEventListener('resize', handleResize)
 
     if (localStorage.getItem('authenticated')) {
-      dispatch(authenticationHanlder(true))
+      dispatch(authenticationHanlder({status:true, token: localStorage.getItem('token')}))
     }
   }, []); 
 

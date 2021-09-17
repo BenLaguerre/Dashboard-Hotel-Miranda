@@ -15,7 +15,7 @@ export default function Disconnect(props) {
   const dispatch = useDispatch();
     return (
       <>
-      <Logout onClick={() => dispatch(authenticationHanlder(false))} size={32}/>
+      <Logout onClick={() => dispatch(authenticationHanlder({status: false}))} size={32}/>
       </>
     )
   }; 

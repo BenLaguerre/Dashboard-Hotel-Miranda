@@ -115,9 +115,8 @@ export default function Login(props) {
         if (response.ok){
 				
 					const json =  await response.json();
-					localStorage.setItem('token',json.token);
-					localStorage.setItem('authenticated', '1');
-					dispatch(authenticationHanlder(true));
+					
+					dispatch(authenticationHanlder({status: true, token: json.token}));
 					//props.authenticate(true);
 					history.replace(from);
 					setComb(true);
