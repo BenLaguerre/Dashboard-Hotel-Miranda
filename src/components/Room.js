@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import { fetchRooms} from '../features/roomSlice';
+import { fetchRooms, fetchOneRoom} from '../features/roomSlice';
 import room_generic2 from '../images/room_generic2.jpg';
 import styled from "styled-components";
 
@@ -128,10 +128,12 @@ export default function Room({title}) {
   let indice = id - 1 - ((Math.floor((id-1)/10))*10);
 
   useEffect(() => {
-    dispatch(fetchRooms({page: (Math.ceil(id/10)), filt : 0}));
+    //dispatch(fetchRooms({page: (Math.ceil(id/10)), filt : 0}));
+    dispatch(fetchOneRoom({id: id}));
   }, []);
 
-  const roomInfo = useSelector(state => state.roomList.roomList[indice]);
+  //const roomInfo = useSelector(state => state.roomList.roomList[indice]);
+  const roomInfo = useSelector(state => state.roomList.roomList);
 
   function goBack (){
     history.goBack();

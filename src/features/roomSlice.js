@@ -7,6 +7,10 @@ export const fetchRooms = createAsyncThunk('roomList/fetchRooms', async () => {
     return await apiRequest('rooms','GET')
 })
 
+export const fetchOneRoom = createAsyncThunk('roomList/fetchOneRoom', async (arg) => {
+    return await apiRequest('rooms/' +arg.id,'GET')
+})
+
 export const roomSlice = createSlice ({
   name: 'roomList',
   initialState:  {
@@ -108,11 +112,9 @@ export const roomSlice = createSlice ({
         state.roomList = action.payload.filter(item => {
           if (action.meta.arg.filt === 1){
             return item.state === true;
-  
           } else if (action.meta.arg.filt === 2) {
             return item.state === false;
           }
-          
           return true;
         
         }).slice((action.meta.arg.page-1)*ROOMS_MULTIPLY , action.meta.arg.page * ROOMS_MULTIPLY)
@@ -128,6 +130,18 @@ export const roomSlice = createSlice ({
           }))   
       })
       .addCase(fetchRooms.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message      
+      })
+
+      .addCase(fetchOneRoom.pending, (state, action) => {
+        state.status = 'loading'
+      })
+      .addCase(fetchOneRoom.fulfilled, (state, action) => {
+        state.status = 'succeeded'  
+        state.roomList = action.payload[0]
+      })
+      .addCase(fetchOneRoom.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message      
       })

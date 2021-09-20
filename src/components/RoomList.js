@@ -120,9 +120,10 @@ export default function RoomList({title}) {
   useEffect(() => {
     title("Rooms")
     dispatch(fetchRooms({page: 1, filt : filter}));
-  }, []);
+  }, [])
 
   const roomData = useSelector(state => state.roomList.roomList); 
+ 
   const newRoomList = roomData.map (data =>
     (<TRow key={data.key}>
       <RoomItem  
