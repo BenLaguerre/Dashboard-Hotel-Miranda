@@ -5,6 +5,7 @@ import { RiCalendarCheckLine } from "react-icons/ri";
 import { BiLogOut, BiLogIn } from "react-icons/bi";
 import Calendar from 'react-calendar';
 import ReservationChart from "../chart/ReservationChart";
+import { BsSquareFill } from "react-icons/bs";
 
 const DashWrapper = styled.div`
   margin: 0 auto;
@@ -94,14 +95,14 @@ const CalendarWrapper = styled.div`
   display:flex;
   flex-direction: column;
   align-items:center;
-  justify-content: space-between;
   border-radius: 20px;
   background: white;
-  p {
-    margin: 30px 0 30px 40px;
+  h3 {
+    margin: 30px 0 30px 20px;
     color: #393939;
     font-size: 20px;
     align-self: flex-start;
+    font-weight: normal;
   }
 `
 const ChartWrapper = styled.div`
@@ -112,17 +113,27 @@ const ChartWrapper = styled.div`
   align-items:center;
   border-radius: 20px;
   background: white;
-  p {
-    margin: 30px 0 30px 40px;
+  h3 {
+    margin: 30px 0 30px 20px;
     color: #393939;
     font-size: 20px;
     align-self: flex-start;
+    font-weight: normal;
   }
   svg g {
     font-family: 'Poppins';
     font-size: 12px;
-    color: #6E6E6E;
     opacity: 0.5;
+  }
+`
+const Legend = styled.div`
+  width: 50%;
+  align-self: flex-start;
+  display: flex;
+  margin-left: 20px;
+  margin-bottom: 30px;
+  p {
+    flex:1;
   }
 `
 export default function Dashboard({title}) {
@@ -147,7 +158,7 @@ export default function Dashboard({title}) {
         <KPI><Logout size={32} /><Number><h2>18</h2><p>Check Out</p></Number></KPI>
       </KpiWrapper>
       <CalendarWrapper>
-        <p>Recent Booking Schedule</p>
+        <h3>Recent Booking Schedule</h3>
         <Calendar
           value={activeDate}
           onChange={changeDate}
@@ -160,7 +171,11 @@ export default function Dashboard({title}) {
         />
       </CalendarWrapper>
       <ChartWrapper>
-        <p>Reservation Stats</p>
+        <h3>Reservation Stats</h3>
+        <Legend>
+          <p><BsSquareFill color={'#135846'}/> Check In</p>
+          <p><BsSquareFill color={'#ff0000'}/> Check Out</p>
+        </Legend>
         <ReservationChart />
       </ChartWrapper>
       
