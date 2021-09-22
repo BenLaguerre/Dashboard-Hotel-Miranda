@@ -8,12 +8,12 @@ let guestsMap = guestJSON.map ((item, index) =>
     key: item.id, 
     id: item.id, 
     index: index,
-    firstName: item.first_name,
-    lastName: item.last_name, 
-    orderDate: item.order_date, 
-    checkIn: item.check_in, 
-    checkOut: item.check_out, 
-    roomType: item.room_type 
+    name: item.name,
+    orderDate: item.booking_date, 
+    checkIn: item.start_date, 
+    checkOut: item.exit_date, 
+    message: item.message,
+    room: item.room_id 
   }))
 
 export const guestSlice = createSlice ({
@@ -40,12 +40,11 @@ export const guestSlice = createSlice ({
         key: item.key, 
         id: item.id, 
         index: index,
-        firstName: item.firstName,
-        lastName: item.lastName, 
+        name: item.name,
         orderDate: item.orderDate, 
         checkIn: item.checkIn, 
         checkOut: item.checkOut, 
-        roomType: item.roomType 
+        room: item.room
       })
     )}, 
 
@@ -55,12 +54,11 @@ export const guestSlice = createSlice ({
         key: item.key, 
         id: item.id, 
         index: index,
-        firstName: item.firstName,
-        lastName: item.lastName, 
+        name: item.name,
         orderDate: item.orderDate, 
         checkIn: item.checkIn, 
         checkOut: item.checkOut, 
-        roomType: item.roomType 
+        room: item.room
       })
     )}
   }

@@ -64,12 +64,12 @@ export default function GuestItem(props) {
  
   return (
     <>
-      <TD><StyledLink to={`/booking/${props.id}`} >{props.firstName} {props.lastName}</StyledLink></TD>
+      <TD><StyledLink to={`/booking/${props.id}`} >{props.name}</StyledLink></TD>
       <td>{convertDate(props.orderDate)}</td>
       <td>{convertDate(props.checkIn)}</td>
       <td>{convertDate(props.checkOut)}</td>
       <td><SButton>View Notes</SButton></td>
-      <td><ImgWrapper><Image src={room_generic}></Image>{props.roomType}</ImgWrapper></td>
+      <td><ImgWrapper><Image src={room_generic}></Image>9584-{props.room}</ImgWrapper></td>
       <td><Delete size={26} onClick={() => dispatch(deleteGuest(props.index+1))}>Delete</Delete></td>
     </>
   );                        

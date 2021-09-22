@@ -186,7 +186,7 @@ export default function Guest() {
       <article>
         <GuestInfoWrapper>
           <div>
-            <h2>{guestInfo.firstName} {guestInfo.lastName}</h2>
+            <h2>{guestInfo.name}</h2>
           </div>
           <div>
             <p>ID: 256984-175{id}</p>

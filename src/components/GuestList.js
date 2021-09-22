@@ -149,12 +149,11 @@ export default function GuestList({title}) {
       <GuestItem 
         id={data.id} 
         index={data.index} 
-        firstName={data.firstName} 
-        lastName={data.lastName} 
+        name={data.name} 
         orderDate={data.orderDate} 
         checkIn={data.checkIn} 
         checkOut={data.checkOut} 
-        roomType={data.roomType} />
+        room={data.room} />
     </TRow> ));                          
   
   const handleFilterChange = newFilter => {
