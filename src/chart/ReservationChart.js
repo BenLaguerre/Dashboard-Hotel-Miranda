@@ -23,7 +23,7 @@ export default function ReservationChart() {
   useEffect (() => {
     orderWeekDays ()
     let width = 500;
-    let height = 300;
+    let height = 400;
     let xHeight = height - 30;
     let svg = d3.select(ref.current)
                 .append("svg")
