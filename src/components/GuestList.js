@@ -132,9 +132,9 @@ export default function GuestList({title}) {
    
   //Handling pagination
   const [activePage, setPage] = useState(1);
-  const totalItem = 25;
+  const totalItem = 40;
 
-  let dateChosen = new Date('01/01/2021');
+  let dateChosen = new Date('01/01/2022');
   dateChosen = dateChosen.getTime();
 
   useEffect(() => {

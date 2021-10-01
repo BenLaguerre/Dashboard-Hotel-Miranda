@@ -1,21 +1,26 @@
-import React from 'react'
+import React, { useEffect, useRef }from 'react'
 import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
-import calendarDates from '../json/calendarDates.json'
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function Calendar(props) {
 
-  let startDates = calendarDates.map(x => {
-    return {start: x.start}
+  const calendar = useSelector(state => state.guestList.fullGuestList); 
+  let startDates = calendar.map(x => {
+    return {
+      start: x.checkIn,
+      name: x.name
+    }
   })
-  let endDates = calendarDates.map(x => {
-    return {start: x.end}
+  let endDates = calendar.map(x => {
+    return {start: x.checkOut}
   })
-
+  
   return (
-    <FullCalendar
+    <FullCalendar 
       plugins={[ dayGridPlugin ]}
       initialView="dayGridMonth"
+      datesSet={args => props.changeDate(args.view.activeStart)}
       headerToolbar = {{
         left: 'prev,title,next',
         center:'',
@@ -30,8 +35,6 @@ export default function Calendar(props) {
         events: endDates,
         color : '#ff0000'
       }]}
-
     />
-    
   )
 }

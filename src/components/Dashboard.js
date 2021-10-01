@@ -6,6 +6,10 @@ import { BiLogOut, BiLogIn } from "react-icons/bi";
 import Calendar from './Calendar';
 import ReservationChart from "../chart/ReservationChart";
 import { BsSquareFill } from "react-icons/bs";
+import room_generic from '../images/room_generic.jpg';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchAllGuests } from '../features/guestSlice';
+import CalendarRooms from "./CalendarRooms";
 
 const DashWrapper = styled.div`
   margin: 0 auto;
@@ -169,12 +173,20 @@ const CalendarWrapper = styled.div`
     }
   }
 `
+const Rooms = styled.div`
+  width: 100%;
+  margin: 20px 20px 0 20px;
+  border-top: solid 2px #EBEBEB;
+  padding-top: 20px;
+`
+
 const ChartWrapper = styled.div`
   box-sizing: border-box;
   padding: 20px;
   box-shadow: 0px 4px 4px #00000005;
   flex:1;
   display:flex;
+  align-self: flex-start;
   flex-direction: column;
   align-items:center;
   border-radius: 20px;
@@ -201,17 +213,51 @@ const Legend = styled.div`
     flex:1;
   }
 `
-export default function Dashboard({title}) {
 
-  const [activeDate, setDate] = useState([new Date('09/11/2021'), new Date('09/13/2021')]);
+export default function Dashboard({title}) {
   
-  const changeDate = (e) => {
-    setDate(e)
+  const dispatch = useDispatch();
+
+  const [activeDate, setDate] = useState(new Date);
+  
+  const changeDate = (date) => {
+    date.setDate(date.getDate() + 8); //Adding 8 days to deal with days of the previous month
+    setDate(date)
+  }
+
+  //Return the month and year of a date
+  const monthName  = (date) => {
+    return date.toLocaleString("en-EN", { year: "numeric" ,month: "long" })
   }
   
   useEffect(() => {
     title("Dashboard")
-  }, [title]); 
+  }, []); 
+
+  useEffect(() => {
+    dispatch(fetchAllGuests(monthName(activeDate)));
+  }, [activeDate]); 
+
+  const bookings = useSelector(state => state.guestList.fullGuestList); 
+  const checkIn = bookings.filter(data => monthName(activeDate)  === monthName(new Date(data.checkIn)))
+    .map(data =>
+    <CalendarRooms 
+        key={data.id} 
+        name={data.name} 
+        room={data.room}
+        date={data.checkIn}
+        color="#135846"
+    />)
+
+  const checkOut = bookings.filter(data => monthName(activeDate)  === monthName(new Date(data.checkOut)))
+    .map(data =>
+    <CalendarRooms 
+        key={data.id} 
+        name={data.name} 
+        room={data.room} 
+        date={data.checkOut}
+        color="#E23428"
+    />)
 
   return (
     <>
@@ -224,12 +270,13 @@ export default function Dashboard({title}) {
       </KpiWrapper>
       <CalendarWrapper>
         <h3>Recent Booking Schedule</h3>
-        <Calendar
-          
-        />
-        <div>
-
-        </div>
+        <Calendar changeDate={changeDate} />
+        <Rooms>
+          <h3>Check In</h3>
+          {checkIn}
+          <h3>Check Out</h3>
+          {checkOut}
+        </Rooms>
       </CalendarWrapper>
       <ChartWrapper>
         <h3>Reservation Stats</h3>

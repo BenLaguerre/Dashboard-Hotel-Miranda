@@ -160,7 +160,7 @@ export default function Guest() {
   
   let indice = id - 1 - ((Math.floor((id-1)/10))*10);
   useEffect(() => {
-    dispatch(fetchRooms({page: (Math.ceil(id/10)), filt : 0}));
+    dispatch(fetchRooms({page: 1, filt : 0})); //To change to adapt
     dispatch(fetchGuests({page: (Math.ceil(id/10)), filt : 0}));
   }, []);
 
