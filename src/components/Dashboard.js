@@ -176,8 +176,10 @@ const CalendarWrapper = styled.div`
 const Rooms = styled.div`
   width: 100%;
   margin: 20px 20px 0 20px;
-  border-top: solid 2px #EBEBEB;
-  padding-top: 20px;
+  h3 {
+    border-top: solid 2px #EBEBEB;
+    padding-top: 20px;
+  }
 `
 
 const ChartWrapper = styled.div`
@@ -240,6 +242,9 @@ export default function Dashboard({title}) {
 
   const bookings = useSelector(state => state.guestList.fullGuestList); 
   const checkIn = bookings.filter(data => monthName(activeDate)  === monthName(new Date(data.checkIn)))
+    .sort((a, b) => {
+      return new Date(a.checkIn) - new Date(b.checkIn);   //Order the array by checkIn dates.
+    })
     .map(data =>
     <CalendarRooms 
         key={data.id} 
@@ -249,7 +254,10 @@ export default function Dashboard({title}) {
         color="#135846"
     />)
 
-  const checkOut = bookings.filter(data => monthName(activeDate)  === monthName(new Date(data.checkOut)))
+  const checkOut = bookings.filter(data => monthName(activeDate) === monthName(new Date(data.checkOut)))
+    .sort((a, b) => {
+      return new Date(a.checkOut) - new Date(b.checkOut);   //Order the array by checkOut dates.
+    })
     .map(data =>
     <CalendarRooms 
         key={data.id} 
@@ -258,23 +266,22 @@ export default function Dashboard({title}) {
         date={data.checkOut}
         color="#E23428"
     />)
-
   return (
     <>
     <DashWrapper>
       <KpiWrapper>
         <KPI><Bed size={32} /><Number><h2>61</h2><p>New Bookings</p></Number></KPI>
         <KPI><Booking size={32} /><Number><h2>33</h2><p>Scheduled Room</p></Number></KPI>
-        <KPI><Login size={32} /><Number><h2>23</h2><p>Check In</p></Number></KPI>
-        <KPI><Logout size={32} /><Number><h2>18</h2><p>Check Out</p></Number></KPI>
+        <KPI><Login size={32} /><Number><h2>{checkIn.length}</h2><p>Check In</p></Number></KPI>
+        <KPI><Logout size={32} /><Number><h2>{checkOut.length}</h2><p>Check Out</p></Number></KPI>
       </KpiWrapper>
       <CalendarWrapper>
         <h3>Recent Booking Schedule</h3>
         <Calendar changeDate={changeDate} />
         <Rooms>
-          <h3>Check In</h3>
+          {checkIn.length === 0 ? null : <h3>Check In</h3>} 
           {checkIn}
-          <h3>Check Out</h3>
+          {checkOut.length === 0 ? null : <h3>Check Out</h3>} 
           {checkOut}
         </Rooms>
       </CalendarWrapper>
