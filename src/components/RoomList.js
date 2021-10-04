@@ -122,7 +122,7 @@ export default function RoomList({title}) {
     dispatch(fetchRooms({page: 1, filt : filter}));
   }, [])
 
-  const roomData = useSelector(state => state.roomList.roomList); 
+  const roomData = useSelector(state => state.roomList.allRoom); 
  
   const newRoomList = roomData.map (data =>
     (<TRow key={data.key}>

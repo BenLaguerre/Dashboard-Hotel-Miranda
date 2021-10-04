@@ -15,7 +15,8 @@ export const roomSlice = createSlice ({
   name: 'roomList',
   initialState:  {
     status: 'idle',
-    roomList : [],
+    allRoom : [],
+    oneRoom: [],
     error: null
   }
   ,
@@ -104,16 +105,18 @@ export const roomSlice = createSlice ({
   },
   extraReducers(builder) {
     builder
+
+      //fetchRooms
       .addCase(fetchRooms.pending, (state, action) => {
         state.status = 'loading'      
       })
       .addCase(fetchRooms.fulfilled, (state, action) => {
         state.status = 'succeeded'  
-        state.roomList = action.payload.filter(item => {
+        state.allRoom = action.payload.filter(item => {
           if (action.meta.arg.filt === 1){
-            return item.state === true;
+            return item.status === true;
           } else if (action.meta.arg.filt === 2) {
-            return item.state === false;
+            return item.status === false;
           }
           return true;
         
@@ -134,12 +137,13 @@ export const roomSlice = createSlice ({
         state.error = action.error.message      
       })
 
+      //fetchOneRoom
       .addCase(fetchOneRoom.pending, (state, action) => {
         state.status = 'loading'
       })
       .addCase(fetchOneRoom.fulfilled, (state, action) => {
         state.status = 'succeeded'  
-        state.roomList = action.payload[0]
+        state.oneRoom = action.payload[0]
       })
       .addCase(fetchOneRoom.rejected, (state, action) => {
         state.status = 'failed'
@@ -149,7 +153,7 @@ export const roomSlice = createSlice ({
 }
 )
  
-export const { deleteRoom, occupiedRooms, freeRooms, addRoom} = roomSlice.actions
+export const { deleteRoom, addRoom} = roomSlice.actions
  
 export default roomSlice.reducer
   

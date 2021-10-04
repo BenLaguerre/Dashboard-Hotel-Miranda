@@ -133,7 +133,7 @@ export default function Room({title}) {
   }, []);
 
   //const roomInfo = useSelector(state => state.roomList.roomList[indice]);
-  const roomInfo = useSelector(state => state.roomList.roomList);
+  const roomInfo = useSelector(state => state.roomList.oneRoom);
 
   function goBack (){
     history.goBack();
