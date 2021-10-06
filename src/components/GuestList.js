@@ -4,6 +4,10 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchGuests} from '../features/guestSlice';
 import Pagination from "react-js-pagination";
+import DateRangePicker from '@wojtekmaj/react-daterange-picker';
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const PreTable = styled.div`
   display: flex;
@@ -27,42 +31,40 @@ const PreTable = styled.div`
       border-bottom: solid 2px #135846;
     }
   }
-  div {
-    display: flex;
-    gap: 20px;
-    button:nth-of-type(1) {
-      text-decoration: none;
-      padding: 5px 30px;
-      font-family: 'Poppins';
-      font-size: 16px;
-      box-sizing: content-box;
-      border-radius: 12px;
-      background: #135846;
-      color: white;
-      border: 2px solid #135846;
-      &:hover {
-        background: #F8F8F8;
-        color: #135846;
-        border: 2px solid #135846;
-      }
-    }
-    button:nth-of-type(2) {
-      text-decoration: none;
-      padding: 5px 30px;
-      font-family: 'Poppins';
-      font-size: 16px;
-      box-sizing: content-box;
-      border-radius: 12px;
-      color: #135846;
-      border: 2px solid #135846;
-      &:hover {
-        background: #F8F8F8;
-        color: #135846;
-        border: 2px solid #135846;
-      }
-    }
-  }
 }
+`
+const CalendarTool = styled.div`
+  flex: 0.5;
+  .react-datepicker-wrapper {
+    padding: 5px 0;
+    background: #135846;
+    box-sizing: content-box;
+    border-radius: 12px;
+    border: 2px solid #135846;
+    text-align: center;
+  }
+  input {
+    color: white;
+    background: #135846;
+    font-size: 16px;
+    border:none;
+    width: 90%;
+  }
+`
+const Newest = styled.button`
+  text-decoration: none;
+  padding: 5px 30px;
+  font-family: 'Poppins';
+  font-size: 16px;
+  box-sizing: content-box;
+  border-radius: 12px;
+  color: #135846;
+  border: 2px solid #135846;
+  &:hover {
+    background: #F8F8F8;
+    color: #135846;
+    border: 2px solid #135846;
+  }
 `
 const TableStyle = styled.table`
   border-radius: 20px;
@@ -70,7 +72,7 @@ const TableStyle = styled.table`
   background-color: white;
   width: 90%;
   margin: 0 auto;
-`;
+`
 const TheadStyle = styled.thead `
   text-align: left;
   height: 65px;
@@ -134,12 +136,9 @@ export default function GuestList({title}) {
   const [activePage, setPage] = useState(1);
   const totalItem = 25;
 
-  let dateChosen = new Date('01/01/2021');
-  dateChosen = dateChosen.getTime();
-
   useEffect(() => {
     title("Bookings")
-    dispatch(fetchGuests({page: activePage, filt : filter, date: dateChosen}));
+    dispatch(fetchGuests({page: activePage, filt : filter}));
   }, []);
 
   const guestData = useSelector(state => state.guestList.guestList); 
@@ -160,17 +159,18 @@ export default function GuestList({title}) {
   const handleFilterChange = newFilter => {
     setFilter(newFilter);
     setPage(1);
-    dispatch(fetchGuests({page: 1, filt : newFilter, date: dateChosen}));
+    dispatch(fetchGuests({page: 1, filt : newFilter, date: startDate}));
   };
   const handlePageChange = newPage => {
     setPage(newPage);
-    dispatch(fetchGuests({page: newPage, filt : filter, date: dateChosen}));
+    dispatch(fetchGuests({page: newPage, filt : filter, date: startDate.getTime()}));
   };
 
+  const [dateRange, setDateRange] = useState([null, null]);
+  const [startDate, endDate] = dateRange;
   return (
     <>
     <PreTable>
-      
         <ul>
           <li 
             onClick={() => handleFilterChange(0)}
@@ -185,11 +185,24 @@ export default function GuestList({title}) {
             onClick={() => handleFilterChange(3)}
             className = {filter === 3 ? 'active' : null}>Pending</li>
         </ul>
-        <div>
-          <button>Date to Date</button>
-          <button>Newest</button>
-        </div>
+        
+        <CalendarTool>
+          <DatePicker
+            selectsRange={true}
+            startDate={startDate}
+            endDate={endDate}
+            onChange={(update) => {
+              setDateRange(update);
+            }}
+            onCalendarClose={() => {
+              dispatch(fetchGuests({page: 1, filt : filter, date: startDate.getTime()}))
+            }}
+            dateFormat="d MMMM yyyy"
+            placeholderText="Click to select a date range"
+          />
+        </CalendarTool>
     </PreTable>
+    
     <div>
       <TableStyle>
         <TheadStyle>
