@@ -134,8 +134,14 @@ export default function GuestList({title}) {
    
   //Handling pagination
   const [activePage, setPage] = useState(1);
-  const totalItem = 25;
+  const totalItem = 40;
 
+<<<<<<< HEAD
+=======
+  let dateChosen = new Date('01/01/2022');
+  dateChosen = dateChosen.getTime();
+
+>>>>>>> main
   useEffect(() => {
     title("Bookings")
     dispatch(fetchGuests({page: activePage, filt : filter}));
@@ -148,12 +154,11 @@ export default function GuestList({title}) {
       <GuestItem 
         id={data.id} 
         index={data.index} 
-        firstName={data.firstName} 
-        lastName={data.lastName} 
+        name={data.name} 
         orderDate={data.orderDate} 
         checkIn={data.checkIn} 
         checkOut={data.checkOut} 
-        roomType={data.roomType} />
+        room={data.room} />
     </TRow> ));                          
   
   const handleFilterChange = newFilter => {
