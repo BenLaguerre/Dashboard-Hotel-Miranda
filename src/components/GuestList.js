@@ -135,17 +135,14 @@ export default function GuestList({title}) {
   //Handling pagination
   const [activePage, setPage] = useState(1);
   const totalItem = 40;
+  
+  const [dateRange, setDateRange] = useState([null, null]);
+  const [startDate, endDate] = dateRange;
 
-<<<<<<< HEAD
-=======
-  let dateChosen = new Date('01/01/2022');
-  dateChosen = dateChosen.getTime();
-
->>>>>>> main
   useEffect(() => {
     title("Bookings")
-    dispatch(fetchGuests({page: activePage, filt : filter}));
-  }, []);
+    dispatch(fetchGuests({page: activePage, filt : filter, startDate: startDate, endDate: endDate}));
+  }, [dateRange]);
 
   const guestData = useSelector(state => state.guestList.guestList); 
  
@@ -164,31 +161,28 @@ export default function GuestList({title}) {
   const handleFilterChange = newFilter => {
     setFilter(newFilter);
     setPage(1);
-    dispatch(fetchGuests({page: 1, filt : newFilter, date: startDate}));
+    dispatch(fetchGuests({page: 1, filt : newFilter, startDate: startDate, endDate: endDate}));
   };
   const handlePageChange = newPage => {
     setPage(newPage);
-    dispatch(fetchGuests({page: newPage, filt : filter, date: startDate.getTime()}));
+    dispatch(fetchGuests({page: newPage, filt : filter, startDate: startDate, endDate: endDate}));
   };
 
-  const [dateRange, setDateRange] = useState([null, null]);
-  const [startDate, endDate] = dateRange;
+  
+
   return (
     <>
     <PreTable>
         <ul>
           <li 
             onClick={() => handleFilterChange(0)}
-            className = {filter === 0 ? 'active' : null}>All Guest</li>
+            className = {filter === 0 ? 'active' : null}>All</li>
           <li 
             onClick={() => handleFilterChange(1)}
-            className = {filter === 1 ? 'active' : null}>Entrance</li>
+            className = {filter === 1 ? 'active' : null}>Check In</li>
           <li 
             onClick={() => handleFilterChange(2)}
-            className = {filter === 2 ? 'active' : null}>Exit</li>
-          <li 
-            onClick={() => handleFilterChange(3)}
-            className = {filter === 3 ? 'active' : null}>Pending</li>
+            className = {filter === 2 ? 'active' : null}>Check Out</li>
         </ul>
         
         <CalendarTool>
@@ -199,11 +193,10 @@ export default function GuestList({title}) {
             onChange={(update) => {
               setDateRange(update);
             }}
-            onCalendarClose={() => {
-              dispatch(fetchGuests({page: 1, filt : filter, date: startDate.getTime()}))
-            }}
+            
             dateFormat="d MMMM yyyy"
             placeholderText="Click to select a date range"
+            isClearable={true}
           />
         </CalendarTool>
     </PreTable>
@@ -231,7 +224,7 @@ export default function GuestList({title}) {
             activePage={activePage}
             itemsCountPerPage={10}
             totalItemsCount={totalItem}
-            pageRangeDisplayed={3}
+            pageRangeDisplayed={totalItem/10}
             onChange={handlePageChange}
             prevPageText='Prev'
             nextPageText='Next'

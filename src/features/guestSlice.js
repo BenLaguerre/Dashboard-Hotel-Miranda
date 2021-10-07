@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {apiRequest} from './apiRequest';
 import guestJSON from '../json/guestJSON.json';
 
 const GUESTS_MULTIPLY = 10;
@@ -32,16 +33,20 @@ export const guestSlice = createSlice ({
   reducers: {  
     fetchGuests: (state, action) => {
       state.guestList = guestsMap.filter(item => {
-        if (action.payload.filt === 1){
-          //convert the date to milisecond to compare it with the payload.date that is also in milisecond
-          return new Date(item.checkIn).getTime() < action.payload.date;
+        if (action.payload.startDate){
 
-        } else if (action.payload.filt === 2) {
-          return new Date(item.checkOut).getTime() < action.payload.date;;
+          if (action.payload.filt === 1){
+            return (new Date(item.checkIn) > action.payload.startDate) && (new Date(item.checkIn) < action.payload.endDate);
+            
+          } else if (action.payload.filt === 2) {
+            return (new Date(item.checkOut) > action.payload.startDate)  && (new Date(item.checkOut) < action.payload.endDate);
+          }
+          
+          return ((new Date(item.orderDate) > action.payload.startDate) && (new Date(item.orderDate) < action.payload.endDate)) ||
+          ((new Date(item.checkIn) > action.payload.startDate) && (new Date(item.checkIn) < action.payload.endDate)) ||
+          ((new Date(item.checkOut) > action.payload.startDate)  && (new Date(item.checkOut) < action.payload.endDate));
         }
-        
-        return true;
-      
+        return true
       }).slice((action.payload.page-1)*GUESTS_MULTIPLY , action.payload.page * GUESTS_MULTIPLY).map((item,index) => 
       ({ 
         key: item.key, 
