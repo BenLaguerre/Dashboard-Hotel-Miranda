@@ -45,7 +45,7 @@ export default function CalendarRooms(props) {
           <p>{props.room}</p>
           <p>{props.name}</p>
         </div>
-      <Bar color={props.color}>{parseInt(props.date.slice(-2), 10)}</Bar> 
+      <Bar color={props.color}>{(new Date(props.date)).toLocaleString("en-EN",{day: 'numeric'})}</Bar> 
     </Rooms>
     </>
   )

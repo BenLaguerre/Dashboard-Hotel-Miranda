@@ -6,9 +6,8 @@ import { BiLogOut, BiLogIn } from "react-icons/bi";
 import Calendar from './Calendar';
 import ReservationChart from "../chart/ReservationChart";
 import { BsSquareFill } from "react-icons/bs";
-import room_generic from '../images/room_generic.jpg';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllGuests } from '../features/guestSlice';
+import { fetchGuestsOfMonth } from '../features/guestSlice';
 import CalendarRooms from "./CalendarRooms";
 
 const DashWrapper = styled.div`
@@ -237,10 +236,10 @@ export default function Dashboard({title}) {
   }, []); 
 
   useEffect(() => {
-    dispatch(fetchAllGuests(monthName(activeDate)));
+    dispatch(fetchGuestsOfMonth(monthName(activeDate)));
   }, [activeDate]); 
 
-  const bookings = useSelector(state => state.guestList.fullGuestList); 
+  const bookings = useSelector(state => state.guestList.guestMonth); 
   const checkIn = bookings.filter(data => monthName(activeDate)  === monthName(new Date(data.checkIn)))
     .sort((a, b) => {
       return new Date(a.checkIn) - new Date(b.checkIn);   //Order the array by checkIn dates.
@@ -253,7 +252,6 @@ export default function Dashboard({title}) {
         date={data.checkIn}
         color="#135846"
     />)
-
   const checkOut = bookings.filter(data => monthName(activeDate) === monthName(new Date(data.checkOut)))
     .sort((a, b) => {
       return new Date(a.checkOut) - new Date(b.checkOut);   //Order the array by checkOut dates.

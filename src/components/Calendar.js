@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 export default function Calendar(props) {
 
-  const calendar = useSelector(state => state.guestList.fullGuestList); 
+  const calendar = useSelector(state => state.guestList.guestMonth); 
   let startDates = calendar.map(x => {
     return {
       start: x.checkIn,
@@ -35,6 +35,8 @@ export default function Calendar(props) {
         events: endDates,
         color : '#ff0000'
       }]}
+      displayEventTime= {false}
+      eventDisplay= 'block'
     />
   )
 }

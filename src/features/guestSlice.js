@@ -10,6 +10,14 @@ function monthName(date){
   return newDate.toLocaleString("en-EN", { year: "numeric" ,month: "long" })
 }
 
+export const fetchGuests = createAsyncThunk('roomList/fetchGuests', async () => {
+  return await apiRequest('bookings','GET')
+})
+
+export const fetchGuestsOfMonth = createAsyncThunk('roomList/fetchGuestsOfMonth', async () => {
+  return await apiRequest('bookings','GET')
+})
+
 let guestsMap = guestJSON.map ((item, index) =>
   ({
     key: item.id, 
@@ -26,11 +34,14 @@ let guestsMap = guestJSON.map ((item, index) =>
 export const guestSlice = createSlice ({
   name: 'guestList',
   initialState: {
+    status: 'idle',
     guestList: [],
-    fullGuestList: []
+    oneGuest: [],
+    guestMonth: [],
+    error: null
   },
   
-  reducers: {  
+  /*reducers: {  
     fetchGuests: (state, action) => {
       state.guestList = guestsMap.filter(item => {
         if (action.payload.startDate){
@@ -93,11 +104,85 @@ export const guestSlice = createSlice ({
         room: item.room
       })
     )}
-  }
+  },*/
+  extraReducers(builder) {
+    builder
+
+      //fetchGuests
+      .addCase(fetchGuests.pending, (state, action) => {
+        state.status = 'loading'      
+      })
+      .addCase(fetchGuests.fulfilled, (state, action) => {
+        state.status = 'succeeded'  
+        state.guestList = action.payload.filter(item => {
+          if (action.meta.arg.startDate){
+
+            if (action.meta.arg.filt === 1){
+              return (new Date(item.checkIn) > action.payload.startDate) && (new Date(item.checkIn) < action.payload.endDate);
+              
+            } else if (action.meta.arg.filt === 2) {
+              return (new Date(item.checkOut) > action.payload.startDate)  && (new Date(item.checkOut) < action.payload.endDate);
+            }
+            
+            return ((new Date(item.orderDate) > action.payload.startDate) && (new Date(item.orderDate) < action.payload.endDate)) ||
+            ((new Date(item.checkIn) > action.payload.startDate) && (new Date(item.checkIn) < action.payload.endDate)) ||
+            ((new Date(item.checkOut) > action.payload.startDate)  && (new Date(item.checkOut) < action.payload.endDate));
+          }
+          return true
+        
+        })
+        .slice((action.meta.arg.page-1)*GUESTS_MULTIPLY , action.meta.arg.page * GUESTS_MULTIPLY).map((item,index) => 
+        ({ 
+          key: item.key, 
+          id: item.id, 
+          index: index,
+          name: item.name,
+          orderDate: item.booking_date, 
+          checkIn: item.start_date, 
+          checkOut: item.exit_date,
+          message: item.message, 
+          room: item.room_id
+        }))
+      })
+      .addCase(fetchGuests.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message      
+      })
+
+      //FetchGuestOfMonth
+      .addCase(fetchGuestsOfMonth.pending, (state, action) => {
+        state.status = 'loading'      
+      })
+      .addCase(fetchGuestsOfMonth.fulfilled, (state, action) => {
+        state.status = 'succeeded'  
+        state.guestMonth = action.payload.filter(item => {
+          return monthName(item.start_date)  === action.meta.arg ||  monthName(item.exit_date)  === action.meta.arg
+
+        })
+        .map((item,index) => 
+        ({ 
+          key: item.key, 
+          id: item.id, 
+          index: index,
+          name: item.name,
+          orderDate: item.booking_date, 
+          checkIn: item.start_date, 
+          checkOut: item.exit_date,
+          message: item.message, 
+          room: item.room_id
+        }))
+      })
+      .addCase(fetchGuestsOfMonth.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message      
+      })
+    }
 }
 )
  
-export const {  fetchGuests,  deleteGuest, fetchAllGuests }  = guestSlice.actions
+
+
+export const {  deleteGuest, fetchAllGuests }  = guestSlice.actions
  
 export default guestSlice.reducer
   

@@ -4,8 +4,6 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchGuests} from '../features/guestSlice';
 import Pagination from "react-js-pagination";
-import DateRangePicker from '@wojtekmaj/react-daterange-picker';
-
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -135,7 +133,7 @@ export default function GuestList({title}) {
   //Handling pagination
   const [activePage, setPage] = useState(1);
   const totalItem = 40;
-  
+
   const [dateRange, setDateRange] = useState([null, null]);
   const [startDate, endDate] = dateRange;
 
