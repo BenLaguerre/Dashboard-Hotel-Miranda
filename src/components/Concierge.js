@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { fetchConcierge} from '../features/conciergeSlice';
+import { fetchOneConcierge} from '../features/conciergeSlice';
 import { convertDate } from './GuestItem';
 import { FaPhoneAlt } from "react-icons/fa";
 
@@ -104,19 +104,15 @@ const Status= styled.p `
 export default function Concierge(props) {
 
   const dispatch = useDispatch();
- 
   let { id } = useParams();
   let history = useHistory(); 
-  
-  //The id from useParams goes from 1 to 20 but the indice of each element in each page goes from 0 to 9. 
-  //This formula allows to converts the range 1-10 to 0-9 and 11-20 to 0-9.
-  let indice = id - 1 - ((Math.floor((id-1)/10))*10);
 
   useEffect(() => {
-    dispatch(fetchConcierge({page: (Math.ceil(id/10)), filt : 0}));
+    //dispatch(fetchRooms({page: (Math.ceil(id/10)), filt : 0}));
+    dispatch(fetchOneConcierge({id: id}));
   }, []);
   
-  const conciergeInfo = useSelector(state => state.conciergeList.conciergeList[indice]);
+  const conciergeInfo = useSelector(state => state.conciergeList.oneConcierge);
   
   function goBack (){
     history.goBack();
@@ -135,7 +131,7 @@ export default function Concierge(props) {
       <article>
         <div>
           <h2>{conciergeInfo.name}</h2>
-          <p><FaPhoneAlt /> {conciergeInfo.phone}</p>
+          <p><FaPhoneAlt /> {conciergeInfo.phone_number}</p>
         </div>
         <div>
           <p>ID: 256984-175{id}</p>
@@ -145,7 +141,7 @@ export default function Concierge(props) {
           <p>Status</p>
         </div>
         <div>
-          <p>{convertDate(conciergeInfo.joinDate)}</p>
+          <p>{convertDate(conciergeInfo.join_date)}</p>
           <p> {conciergeInfo.status === 1 ? <Status color= {'green'}>ACTIVE</Status> : <Status color= {'red'}>INACTIVE</Status>}</p>
         </div>
         <Subtitle>Description</Subtitle>
