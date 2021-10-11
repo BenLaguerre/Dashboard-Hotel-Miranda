@@ -124,9 +124,7 @@ export default function ReviewList({title}) {
       id={data.id} 
       index={index} 
       date={data.date} 
-      firstName={data.firstName} 
-      lastName={data.lastName} 
-      rating={data.rating} 
+      name={data.name} 
       comment={data.comment} 
       moveCard={moveCard}/>);  }   
   
@@ -161,7 +159,7 @@ export default function ReviewList({title}) {
             activePage={activePage}
             itemsCountPerPage={10}
             totalItemsCount={totalItem}
-            pageRangeDisplayed={3}
+            pageRangeDisplayed={totalItem/10}
             onChange={handlePageChange}
             prevPageText='Prev'
             nextPageText='Next'
