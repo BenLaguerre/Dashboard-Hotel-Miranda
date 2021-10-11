@@ -118,16 +118,17 @@ export const guestSlice = createSlice ({
           if (action.meta.arg.startDate){
 
             if (action.meta.arg.filt === 1){
-              return (new Date(item.checkIn) > action.payload.startDate) && (new Date(item.checkIn) < action.payload.endDate);
+              return (new Date(item.start_date) > action.meta.arg.startDate) && (new Date(item.start_date) < action.meta.arg.endDate);
               
             } else if (action.meta.arg.filt === 2) {
-              return (new Date(item.checkOut) > action.payload.startDate)  && (new Date(item.checkOut) < action.payload.endDate);
+              return (new Date(item.exit_date) > action.meta.arg.startDate)  && (new Date(item.exit_date) < action.meta.arg.endDate);
             }
             
-            return ((new Date(item.orderDate) > action.payload.startDate) && (new Date(item.orderDate) < action.payload.endDate)) ||
-            ((new Date(item.checkIn) > action.payload.startDate) && (new Date(item.checkIn) < action.payload.endDate)) ||
-            ((new Date(item.checkOut) > action.payload.startDate)  && (new Date(item.checkOut) < action.payload.endDate));
+            return ((new Date(item.booking_date) > action.meta.arg.startDate) && (new Date(item.booking_date) < action.meta.arg.endDate)) ||
+            ((new Date(item.start_date) > action.meta.arg.startDate) && (new Date(item.start_date) < action.meta.arg.endDate)) ||
+            ((new Date(item.exit_date) > action.meta.arg.startDate)  && (new Date(item.exit_date) < action.meta.arg.endDate));
           }
+
           return true
         
         })
