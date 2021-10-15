@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {apiRequest} from './apiRequest';
-import guestJSON from '../json/guestJSON.json';
 
 const GUESTS_MULTIPLY = 10;
 
@@ -17,19 +16,6 @@ export const fetchGuests = createAsyncThunk('roomList/fetchGuests', async () => 
 export const fetchGuestsOfMonth = createAsyncThunk('roomList/fetchGuestsOfMonth', async () => {
   return await apiRequest('bookings','GET')
 })
-
-let guestsMap = guestJSON.map ((item, index) =>
-  ({
-    key: item.id, 
-    id: item.id, 
-    index: index,
-    name: item.name,
-    orderDate: item.booking_date, 
-    checkIn: item.start_date, 
-    checkOut: item.exit_date, 
-    message: item.message,
-    room: item.room_id 
-  }))
 
 export const guestSlice = createSlice ({
   name: 'guestList',

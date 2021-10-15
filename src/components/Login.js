@@ -36,11 +36,6 @@ const  FormStyled = styled.form`
     grid-column:1/3;
     color: #E23428;
   }
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 `
 const Title = styled.h1 `
 	text-align: center;
@@ -147,7 +142,6 @@ export default function Login(props) {
       <SInput type="password" id="password" name="password" onChange={handlePasswordChange}></SInput>
 
       <FormButton type="submit" value="Log in"></FormButton>
-      <div><SLink to="/register"> Register </SLink></div>
       <p>Use the combination admin/admin to enter without registering</p>
       {!comb ?  
       <p>Wrong login or password combination </p>

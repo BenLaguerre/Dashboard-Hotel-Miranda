@@ -15,7 +15,6 @@ import Room from './components/Room';
 import NewRoom from './components/NewRoom';
 import PrivateRoute from './components/PrivateRoute';
 import HorizontalBar from './components/HorizontalBar';
-import Register from './components/Register';
 import {
   BrowserRouter as Router,
   Switch,
@@ -119,10 +118,6 @@ function App() {
 
               <Route exact path="/login">{!authenticated ?
                 <Login />  : <Redirect to="/dashboard" />}
-              </Route>
-
-              <Route exact path="/register">{!authenticated ?
-                <Register />  : <Redirect to="/dashboard" />}
               </Route>
 
               <PrivateRoute path="/roomlist/:id">
