@@ -151,13 +151,16 @@ export default function RoomList({title}) {
       <ul>
         <li 
           onClick={() => handleFilterChange(0)}
-          className = {filter === 0 ? 'active' : null}>All Rooms</li>
+          className = {filter === 0 ? 'active' : null}>All Rooms
+        </li>
         <li 
           onClick={() => handleFilterChange(1)}
-          className = {filter === 1 ? 'active' : null}>Occupied Rooms</li>
+          className = {filter === 1 ? 'active' : null}>Occupied Rooms
+        </li>
         <li 
           onClick={() => handleFilterChange(2)}
-          className = {filter === 2 ? 'active' : null}>Free Rooms</li>
+          className = {filter === 2 ? 'active' : null}>Free Rooms
+        </li>
       </ul>
       <StyledLink to={`/roomlist/newroom`}>+ New Room</StyledLink>
     </PreTable>
@@ -170,7 +173,6 @@ export default function RoomList({title}) {
             <th>Facilities</th>
             <th>Rate</th>
             <th>Status</th>
-            <th>Delete</th>
           </tr>
         </TheadStyle>
         <tbody>

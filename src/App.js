@@ -9,7 +9,6 @@ import Concierge from './components/Concierge';
 import NewConcierge from './components/NewConcierge';
 import Navbar from './components/Navbar';
 import ReviewList from './components/ReviewList';
-import Review from './components/Review';
 import Login from './components/Login';
 import Room from './components/Room';
 import NewRoom from './components/NewRoom';
@@ -130,10 +129,6 @@ function App() {
 
               <PrivateRoute path="/booking/:id">
                 <Guest title={handleTitle} />
-              </PrivateRoute>
-
-              <PrivateRoute path="/reviews/:id">
-                <Review title={handleTitle} />
               </PrivateRoute>
 
               <PrivateRoute exact path="/dashboard">

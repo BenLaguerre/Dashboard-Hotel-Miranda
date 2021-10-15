@@ -174,7 +174,6 @@ export default function ConciergeList({title}) {
                 <th>Job Description</th>
                 <th>Contact</th>
                 <th>Status</th>
-                <th>Delete</th>
               </tr>
             </TheadStyle>
             <tbody>

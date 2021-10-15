@@ -165,22 +165,23 @@ export default function GuestList({title}) {
     setPage(newPage);
     dispatch(fetchGuests({page: newPage, filt : filter, startDate: startDate, endDate: endDate}));
   };
-
   
-
   return (
     <>
-    <PreTable>
+      <PreTable>
         <ul>
           <li 
             onClick={() => handleFilterChange(0)}
-            className = {filter === 0 ? 'active' : null}>All</li>
+            className = {filter === 0 ? 'active' : null}>All
+          </li>
           <li 
             onClick={() => handleFilterChange(1)}
-            className = {filter === 1 ? 'active' : null}>Check In</li>
+            className = {filter === 1 ? 'active' : null}>Check In
+          </li>
           <li 
             onClick={() => handleFilterChange(2)}
-            className = {filter === 2 ? 'active' : null}>Check Out</li>
+            className = {filter === 2 ? 'active' : null}>Check Out
+          </li>
         </ul>
         
         <CalendarTool>
@@ -197,41 +198,40 @@ export default function GuestList({title}) {
             isClearable={true}
           />
         </CalendarTool>
-    </PreTable>
-    
-    <div>
-      <TableStyle>
-        <TheadStyle>
-          <tr>
-            <TH>Guest</TH>
-            <th>Order Date</th>
-            <th>Check In</th>
-            <th>Check Out</th>
-            <th>Special Request</th>
-            <th>Room type</th>
-            <th>Delete</th>
-          </tr>
-        </TheadStyle>
-        <tbody>
-        {newGuestList}
-        </tbody>
-      </TableStyle>
-      <PaginWrapper>
-        <p>Showing booking {(activePage*10)-10+1} to {activePage*10} of {totalItem} booking in total</p>
-        <Pagination
-            activePage={activePage}
-            itemsCountPerPage={10}
-            totalItemsCount={totalItem}
-            pageRangeDisplayed={totalItem/10}
-            onChange={handlePageChange}
-            prevPageText='Prev'
-            nextPageText='Next'
-            hideFirstLastPages= {true}
-            itemClassNext= 'next'
-            itemClassPrev= 'prev'
-          />
-      </PaginWrapper>
-    </div>
+      </PreTable>
+      
+      <div>
+        <TableStyle>
+          <TheadStyle>
+            <tr>
+              <TH>Guest</TH>
+              <th>Order Date</th>
+              <th>Check In</th>
+              <th>Check Out</th>
+              <th>Special Request</th>
+              <th>Room type</th>
+            </tr>
+          </TheadStyle>
+          <tbody>
+          {newGuestList}
+          </tbody>
+        </TableStyle>
+        <PaginWrapper>
+          <p>Showing booking {(activePage*10)-10+1} to {activePage*10} of {totalItem} booking in total</p>
+          <Pagination
+              activePage={activePage}
+              itemsCountPerPage={10}
+              totalItemsCount={totalItem}
+              pageRangeDisplayed={totalItem/10}
+              onChange={handlePageChange}
+              prevPageText='Prev'
+              nextPageText='Next'
+              hideFirstLastPages= {true}
+              itemClassNext= 'next'
+              itemClassPrev= 'prev'
+            />
+        </PaginWrapper>
+      </div>
     </>
   );
 }

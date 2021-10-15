@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import { fetchRooms, fetchOneRoom} from '../features/roomSlice';
+import { fetchOneRoom } from '../features/roomSlice';
 import room_generic2 from '../images/room_generic2.jpg';
 import styled from "styled-components";
 

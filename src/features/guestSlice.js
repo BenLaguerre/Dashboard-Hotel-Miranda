@@ -166,10 +166,6 @@ export const guestSlice = createSlice ({
     }
 }
 )
- 
 
-
-export const {  deleteGuest, fetchAllGuests }  = guestSlice.actions
- 
 export default guestSlice.reducer
   

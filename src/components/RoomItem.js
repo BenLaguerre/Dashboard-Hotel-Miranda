@@ -2,9 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import styled from "styled-components";
-import { useDispatch } from 'react-redux';
-import { deleteRoom } from '../features/roomSlice';
-import { TiDeleteOutline } from "react-icons/ti";
 import room_generic from '../images/room_generic.jpg';
 
 const PadTd = styled.td `
@@ -37,17 +34,8 @@ const Rate = styled.span `
   padding: 0;
   margin: 0;
 ` 
-const Delete = styled(TiDeleteOutline) `
-  color: red;
-  display: flex;
-  &:hover {
-    cursor: pointer;
-  }
-`
+
 export default function RoomItem(props) {
-
-
-  const dispatch = useDispatch();
   
   return (
     <>
@@ -57,7 +45,6 @@ export default function RoomItem(props) {
       <td><b>{props.price}€</b><Rate>/night</Rate></td>
       <td>{props.status  ? <Button color ="#E23428" name= 'Booked'/> : <Button color = "#5AD07A" name = 'Available' />}
       </td>
-      <td><Delete size={26} onClick={() => dispatch(deleteRoom(props.index+1))} ></Delete></td>
     </>
 
     );                        
