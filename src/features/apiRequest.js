@@ -2,7 +2,7 @@ const token = localStorage.getItem('token');
 
 export async function apiRequest (location,method,data = null) {
      try{
-      const response = await fetch(`http://localhost:3001/${location}`, {
+      const response = await fetch(`http://backendhotelmiranda.azurewebsites.net/${location}`, {
         method: method,
         withCredentials: true,
         credentials: 'include',
