@@ -2,7 +2,7 @@ import React , { useEffect, useState } from "react";
 import ConciergeItem from '../components/ConciergeItem';
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchConcierge} from '../features/conciergeSlice';
+import { fetchConcierges} from '../features/conciergeSlice';
 import Pagination from "react-js-pagination";
 import { Link } from "react-router-dom";
 
@@ -124,8 +124,8 @@ export default function ConciergeList({title}) {
 
   useEffect(() => {
     title("Concierges")
-    dispatch(fetchConcierge({page: activePage, filt : filter}));
-  }, [title]);
+    dispatch(fetchConcierges({page: activePage, filt : filter}));
+  }, []);
  
   const conciergeData = useSelector(state => state.conciergeList.conciergeList); 
 
@@ -144,11 +144,11 @@ export default function ConciergeList({title}) {
   const handleFilterChange = newFilter => {
     setFilter(newFilter);
     setPage(1);
-    dispatch(fetchConcierge({page: 1, filt : newFilter}));
+    dispatch(fetchConcierges({page: 1, filt : newFilter}));
   };
   const handlePageChange = newPage => {
     setPage(newPage);
-    dispatch(fetchConcierge({page: newPage, filt : filter}));
+    dispatch(fetchConcierges({page: newPage, filt : filter}));
   };
   return (
         <>

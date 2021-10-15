@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Logo from './Logo';
+import { useSelector, useDispatch } from 'react-redux';
+import {authenticationHanlder} from '../features/authSlice';
 
 const LogoWrapper = styled.div`
   background: white;
@@ -81,6 +83,7 @@ const SLink = styled(Link) `
 `
 
 export default function Login(props) {
+	const dispatch = useDispatch();
   let history = useHistory(); 
   let { from } = { from: { pathname: "/dashboard" } };
   
@@ -96,22 +99,39 @@ export default function Login(props) {
     setPasswordInput(e.target.value);
   }
 
-  const handleLoginSubmit = (e) => {
+  const  handleLoginSubmit = async(e) => {
     e.preventDefault();
-    let hardcodedLogs = {
+    /*let hardcodedLogs = {
         login: 'admin',
         password: 'admin'
-      }
-    if ((loginInput === hardcodedLogs.login) && (passwordInput === hardcodedLogs.password)) {
-      props.authenticate(true);
-      //props.loginNavBar()
-      history.replace(from);
-      setComb(true);
+      }*/
       
-    } else {
-      //bad combination
-      setComb(false);
-    }
+      try{
+        const response = await fetch('https://backendhotelmiranda.azurewebsites.net/login', {
+          method: 'POST',
+					headers : { 'Content-Type' : 'application/json' },
+          body: JSON.stringify({username: loginInput, password: passwordInput} )
+        })
+        if (response.ok){
+				
+					const json =  await response.json();
+					
+					dispatch(authenticationHanlder({status: true, token: json.token}));
+					//props.authenticate(true);
+					history.replace(from);
+					setComb(true);
+					
+				} else{
+					console.log('Network response was not ok')
+					 //bad combination
+					 setComb(false);
+				}
+				
+      }catch (err) {
+        console.log('There has been a problem with your fetch operation:', err);
+				 //bad combination
+      }
+    
   }
 
   return (
@@ -132,6 +152,7 @@ export default function Login(props) {
       {!comb ?  
       <p>Wrong login or password combination </p>
        : null}
+
     </FormStyled>
     </>
     );

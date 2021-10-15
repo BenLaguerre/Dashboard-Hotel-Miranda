@@ -1,63 +1,51 @@
-import { createSlice } from '@reduxjs/toolkit';
-import reviewJSON from '../json/reviewJSON.json';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {apiRequest} from './apiRequest';
 
 const REVIEW_MULTIPLY = 10;
-let reviewsMap = reviewJSON.map ((data, index) =>
-  ({
-    key: data.id, 
-    id: data.id, 
-    index: index,
-    date: data.date,
-    firstName: data.first_name,
-    lastName: data.last_name, 
-    rating: data.rating, 
-    comment: data.comment
-  }))
+
+export const fetchReviews = createAsyncThunk('reviewList/fetchReviews', async () => {
+    return await apiRequest('reviews','GET')
+})
 
 export const reviewSlice = createSlice ({
   name: 'reviewList',
   initialState: {
+    status: 'idle',
     reviewList : [],
+    error: null
   },
   
-  reducers: {   
+    reducers: {  
+    },
 
-    fetchReviews: (state, page) => {
-      state.reviewList = reviewsMap
-        .slice((page.payload-1)*REVIEW_MULTIPLY , page.payload * REVIEW_MULTIPLY)
-        .map((data,index) => 
-          ({ 
+    extraReducers(builder) {
+      builder
+
+      //fetchReviews
+      .addCase(fetchReviews.pending, (state, action) => {
+        state.status = 'loading'      
+      })
+      .addCase(fetchReviews.fulfilled, (state, action) => {
+        state.status = 'succeeded'  
+        state.reviewList = action.payload.slice((action.meta.arg-1)*REVIEW_MULTIPLY , action.meta.arg * REVIEW_MULTIPLY)
+          .map((data, index) =>
+          ({
             key: data.id, 
             id: data.id, 
             index: index,
             date: data.date,
-            firstName: data.firstName,
-            lastName: data.lastName, 
-            rating: data.rating, 
-            comment: data.comment 
-          })
-        )}, 
-
-    deleteReviews: (state, id) => {      
-      state.reviewList = state.reviewList.filter(item=> item.index+1 !== id.payload).map ((item,index) => 
-      
-          ({ 
-            key: item.key, 
-            id: item.id, 
-            index: index,
-            firstName: item.firstName,
-            lastName: item.lastName, 
-            orderDate: item.orderDate, 
-            checkIn: item.checkIn, 
-            checkOut: item.checkOut, 
-            roomType: item.roomType 
-          })
-          )},
-  }
-}
-)
+            name: data.name,
+            comment: data.comment
+          }))   
+      })
+      .addCase(fetchReviews.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message      
+      })
+    } 
+})
  
-export const {  fetchReviews, deleteGuest }  = reviewSlice.actions
+export const {  deleteGuest }  = reviewSlice.actions
  
 export default reviewSlice.reducer
   

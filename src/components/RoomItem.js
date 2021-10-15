@@ -10,6 +10,9 @@ import room_generic from '../images/room_generic.jpg';
 const PadTd = styled.td `
   padding-left: 20px;
 `
+const Facilities = styled.td `
+  max-width: 30%;
+`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: #393939;
@@ -43,19 +46,16 @@ const Delete = styled(TiDeleteOutline) `
 `
 export default function RoomItem(props) {
 
-  const discountRange = [0,10,20,25,30]
-  let index = Math.floor(Math.random() * 4)
 
   const dispatch = useDispatch();
   
   return (
     <>
-      <PadTd><StyledLink to={`/roomlist/${props.id}`}><Image src={room_generic}></Image>{props.roomName}</StyledLink></PadTd>
-      <td>{props.bedType}</td>
-      <td>{props.facilities}</td>
-      <td><b>{props.rates}</b><Rate>/night</Rate></td>
-      <td>{discountRange[index]}%</td>
-      <td>{props.buttonType === "Booked" ? <Button color ="#E23428" name= {props.buttonType}/> : <Button color = "#5AD07A" name = {props.buttonType} />}
+      <PadTd><StyledLink to={`/roomlist/${props.id}`}><Image src={room_generic}></Image>{props.name}</StyledLink></PadTd>
+      <td>{props.bed}</td>
+      <Facilities>Ac, Shower, {props.bed},<br /> Towel, Coffee Set, LED TV, Wifi</Facilities>
+      <td><b>{props.price}€</b><Rate>/night</Rate></td>
+      <td>{props.status  ? <Button color ="#E23428" name= 'Booked'/> : <Button color = "#5AD07A" name = 'Available' />}
       </td>
       <td><Delete size={26} onClick={() => dispatch(deleteRoom(props.index+1))} ></Delete></td>
     </>

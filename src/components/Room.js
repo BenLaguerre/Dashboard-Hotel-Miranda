@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import { fetchRooms} from '../features/roomSlice';
+import { fetchRooms, fetchOneRoom} from '../features/roomSlice';
 import room_generic2 from '../images/room_generic2.jpg';
 import styled from "styled-components";
 
@@ -128,10 +128,12 @@ export default function Room({title}) {
   let indice = id - 1 - ((Math.floor((id-1)/10))*10);
 
   useEffect(() => {
-    dispatch(fetchRooms({page: (Math.ceil(id/10)), filt : 0}));
+    //dispatch(fetchRooms({page: (Math.ceil(id/10)), filt : 0}));
+    dispatch(fetchOneRoom({id: id}));
   }, []);
 
-  const roomInfo = useSelector(state => state.roomList.roomList[indice]);
+  //const roomInfo = useSelector(state => state.roomList.roomList[indice]);
+  const roomInfo = useSelector(state => state.roomList.oneRoom);
 
   function goBack (){
     history.goBack();
@@ -153,8 +155,8 @@ export default function Room({title}) {
           <p>Price</p>
         </div>
         <div>
-          <h2>{roomInfo.roomName} - {id}</h2>
-          <p>{roomInfo.rates}<Price> /night</Price></p>
+          <h2>{roomInfo.name} - {id}</h2>
+          <p>{roomInfo.price}€<Price> /night</Price></p>
         </div>
         <Subtitle>Description</Subtitle>
         <div>
@@ -162,19 +164,19 @@ export default function Room({title}) {
         </div> 
         <Subtitle>Facilities</Subtitle>
         <div>
-          <p>{roomInfo.bedType}</p>
-          <p>{roomInfo.bedType}</p>
-          <p>{roomInfo.facilities}</p>
-          <p>{roomInfo.bedType}</p>
-          <p>{roomInfo.facilities}</p>
-          <p>{roomInfo.facilities}</p>
-          <p>{roomInfo.bedType}</p>
+          <p>{roomInfo.bed}</p>
+          <p>AC</p>
+          <p>Wifi</p>
+          <p>LED TV</p>
+          <p>Coffee Set</p>
+          <p>Shower</p>
+          <p>Towels</p>
         </div>
       </article>
       <aside>
-        {roomInfo.btype === 'Available' ? 
-          <Available>{roomInfo.btype} </Available> :
-          <Booked>{roomInfo.btype}</Booked>
+        {roomInfo.status  ? 
+          <Booked>Booked</Booked> :
+          <Available>Available </Available> 
         } 
       </aside>
     </MainWrapper>

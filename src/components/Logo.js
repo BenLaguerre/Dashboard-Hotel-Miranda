@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {FaHotel} from 'react-icons/fa';
 import styled from "styled-components";
 

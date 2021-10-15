@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchGuests} from '../features/guestSlice';
 import Pagination from "react-js-pagination";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const PreTable = styled.div`
   display: flex;
@@ -27,42 +29,40 @@ const PreTable = styled.div`
       border-bottom: solid 2px #135846;
     }
   }
-  div {
-    display: flex;
-    gap: 20px;
-    button:nth-of-type(1) {
-      text-decoration: none;
-      padding: 5px 30px;
-      font-family: 'Poppins';
-      font-size: 16px;
-      box-sizing: content-box;
-      border-radius: 12px;
-      background: #135846;
-      color: white;
-      border: 2px solid #135846;
-      &:hover {
-        background: #F8F8F8;
-        color: #135846;
-        border: 2px solid #135846;
-      }
-    }
-    button:nth-of-type(2) {
-      text-decoration: none;
-      padding: 5px 30px;
-      font-family: 'Poppins';
-      font-size: 16px;
-      box-sizing: content-box;
-      border-radius: 12px;
-      color: #135846;
-      border: 2px solid #135846;
-      &:hover {
-        background: #F8F8F8;
-        color: #135846;
-        border: 2px solid #135846;
-      }
-    }
-  }
 }
+`
+const CalendarTool = styled.div`
+  flex: 0.5;
+  .react-datepicker-wrapper {
+    padding: 5px 0;
+    background: #135846;
+    box-sizing: content-box;
+    border-radius: 12px;
+    border: 2px solid #135846;
+    text-align: center;
+  }
+  input {
+    color: white;
+    background: #135846;
+    font-size: 16px;
+    border:none;
+    width: 90%;
+  }
+`
+const Newest = styled.button`
+  text-decoration: none;
+  padding: 5px 30px;
+  font-family: 'Poppins';
+  font-size: 16px;
+  box-sizing: content-box;
+  border-radius: 12px;
+  color: #135846;
+  border: 2px solid #135846;
+  &:hover {
+    background: #F8F8F8;
+    color: #135846;
+    border: 2px solid #135846;
+  }
 `
 const TableStyle = styled.table`
   border-radius: 20px;
@@ -70,7 +70,7 @@ const TableStyle = styled.table`
   background-color: white;
   width: 90%;
   margin: 0 auto;
-`;
+`
 const TheadStyle = styled.thead `
   text-align: left;
   height: 65px;
@@ -134,13 +134,13 @@ export default function GuestList({title}) {
   const [activePage, setPage] = useState(1);
   const totalItem = 40;
 
-  let dateChosen = new Date('01/01/2022');
-  dateChosen = dateChosen.getTime();
+  const [dateRange, setDateRange] = useState([null, null]);
+  const [startDate, endDate] = dateRange;
 
   useEffect(() => {
     title("Bookings")
-    dispatch(fetchGuests({page: activePage, filt : filter, date: dateChosen}));
-  }, []);
+    dispatch(fetchGuests({page: activePage, filt : filter, startDate: startDate, endDate: endDate}));
+  }, [dateRange]);
 
   const guestData = useSelector(state => state.guestList.guestList); 
  
@@ -159,36 +159,46 @@ export default function GuestList({title}) {
   const handleFilterChange = newFilter => {
     setFilter(newFilter);
     setPage(1);
-    dispatch(fetchGuests({page: 1, filt : newFilter, date: dateChosen}));
+    dispatch(fetchGuests({page: 1, filt : newFilter, startDate: startDate, endDate: endDate}));
   };
   const handlePageChange = newPage => {
     setPage(newPage);
-    dispatch(fetchGuests({page: newPage, filt : filter, date: dateChosen}));
+    dispatch(fetchGuests({page: newPage, filt : filter, startDate: startDate, endDate: endDate}));
   };
+
+  
 
   return (
     <>
     <PreTable>
-      
         <ul>
           <li 
             onClick={() => handleFilterChange(0)}
-            className = {filter === 0 ? 'active' : null}>All Guest</li>
+            className = {filter === 0 ? 'active' : null}>All</li>
           <li 
             onClick={() => handleFilterChange(1)}
-            className = {filter === 1 ? 'active' : null}>Entrance</li>
+            className = {filter === 1 ? 'active' : null}>Check In</li>
           <li 
             onClick={() => handleFilterChange(2)}
-            className = {filter === 2 ? 'active' : null}>Exit</li>
-          <li 
-            onClick={() => handleFilterChange(3)}
-            className = {filter === 3 ? 'active' : null}>Pending</li>
+            className = {filter === 2 ? 'active' : null}>Check Out</li>
         </ul>
-        <div>
-          <button>Date to Date</button>
-          <button>Newest</button>
-        </div>
+        
+        <CalendarTool>
+          <DatePicker
+            selectsRange={true}
+            startDate={startDate}
+            endDate={endDate}
+            onChange={(update) => {
+              setDateRange(update);
+            }}
+            
+            dateFormat="d MMMM yyyy"
+            placeholderText="Click to select a date range"
+            isClearable={true}
+          />
+        </CalendarTool>
     </PreTable>
+    
     <div>
       <TableStyle>
         <TheadStyle>
@@ -212,7 +222,7 @@ export default function GuestList({title}) {
             activePage={activePage}
             itemsCountPerPage={10}
             totalItemsCount={totalItem}
-            pageRangeDisplayed={3}
+            pageRangeDisplayed={totalItem/10}
             onChange={handlePageChange}
             prevPageText='Prev'
             nextPageText='Next'

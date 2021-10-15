@@ -1,19 +1,14 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '../App.js';
+import React from 'react';
 import {
   Route,
   Redirect,
 } from "react-router-dom";
 
 export default function PrivateRoute({ children, ...rest }) {
-  
-  const value = useContext(AuthContext);
-
+  const authenticated = localStorage.getItem('authenticated');
   return (
         <>
-        <Route {...rest}>{value ? children : <Redirect to="/login" />  }</Route>
+        <Route {...rest}>{authenticated ? children : <Redirect to="/login" />  }</Route>
         </>
     )
-  
- 
 }

@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '../App.js';
+import React from 'react';
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { MdDashboard, MdVpnKey, MdEventNote } from "react-icons/md";
@@ -126,8 +125,6 @@ const PFooter = styled.div `
 
 export default function Navbar(props) {
   
-  const value = useContext(AuthContext);
- console.log(props.navon)
   function handleNavBar(){
     if (window.innerWidth <= 930){
       props.handleNavBar();
@@ -139,7 +136,7 @@ export default function Navbar(props) {
     <>
     <VerticalBar>
       <NavWrapper>
-        {props.navon && window.innerWidth <= 930 ? null : <Logo /> }
+        {window.innerWidth <= 930 ? null : <Logo /> }
         <StyledNav>
           <ul>
             <li><StyledNavLink to="/dashboard" onClick={handleNavBar}><MdDashboard size={24} /><p>Dashboard</p></StyledNavLink></li>

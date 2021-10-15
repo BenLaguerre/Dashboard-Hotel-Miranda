@@ -29,7 +29,7 @@ const Date = styled.td `
   min-width: 14%;
 `
 
-export default function ReviewItem({ id, comment, index, moveCard, date,firstName,lastName,rating }) {
+export default function ReviewItem({ id, comment, index, moveCard, date,name }) {
   const ref = useRef(null);
 	const [{ handlerId }, drop] = useDrop({
 		accept: ItemTypes.CARD,
@@ -91,7 +91,7 @@ export default function ReviewItem({ id, comment, index, moveCard, date,firstNam
   return (
 	<>
 	<TRow ref={ref}  data-handler-id={handlerId} style={{ ...style, opacity }} >
-		<PadTd>{firstName} {lastName} 245-{id}48</PadTd>
+		<PadTd>{name} <br />245-{id}48</PadTd>
 		<Date>{convertDate(date)}</Date>
 		<td>{comment}</td>
 		
