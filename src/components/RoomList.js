@@ -115,15 +115,15 @@ export default function RoomList({title}) {
 
   //Handling pagination
   const [activePage, setPage] = useState(1);
-  const totalItem = 25;
-
+  
   useEffect(() => {
     title("Rooms")
     dispatch(fetchRooms({page: 1, filt : filter}));
   }, [])
 
   const roomData = useSelector(state => state.roomList.allRoom); 
- 
+  const totalItem = useSelector(state => state.roomList.totalRoom);
+
   const newRoomList = roomData.map (data =>
     (<TRow key={data.key}>
       <RoomItem  
@@ -185,7 +185,7 @@ export default function RoomList({title}) {
             activePage={activePage}
             itemsCountPerPage={10}
             totalItemsCount={totalItem}
-            pageRangeDisplayed={3}
+            pageRangeDisplayed={totalItem/10}
             onChange={handlePageChange}
             prevPageText='Prev'
             nextPageText='Next'

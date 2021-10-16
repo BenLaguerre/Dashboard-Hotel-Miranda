@@ -175,8 +175,8 @@ export default function Room({title}) {
       </article>
       <aside>
         {roomInfo.status  ? 
-          <Booked>Booked</Booked> :
-          <Available>Available </Available> 
+          <Available>Available </Available> :
+          <Booked>Booked</Booked> 
         } 
       </aside>
     </MainWrapper>

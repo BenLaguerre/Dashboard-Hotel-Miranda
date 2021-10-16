@@ -51,9 +51,9 @@ export const roomSlice = createSlice ({
         state.totalRoom = action.payload.length
         state.allRoom = action.payload.filter(item => {
           if (action.meta.arg.filt === 1){
-            return item.status === true;
-          } else if (action.meta.arg.filt === 2) {
             return item.status === false;
+          } else if (action.meta.arg.filt === 2) {
+            return item.status === true;
           }
           return true;
         
