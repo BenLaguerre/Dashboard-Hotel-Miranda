@@ -3,6 +3,10 @@ import {apiRequest} from './apiRequest';
 
 const ROOMS_MULTIPLY = 10;
 
+export const addRoom = createAsyncThunk('roomList/addRoom', async (arg) => {
+  return await apiRequest('rooms','POST', arg)
+})
+
 export const fetchRooms = createAsyncThunk('roomList/fetchRooms', async () => {
     return await apiRequest('rooms','GET')
 })
@@ -15,6 +19,7 @@ export const roomSlice = createSlice ({
   name: 'roomList',
   initialState:  {
     status: 'idle',
+    totalRoom : 0,
     allRoom : [],
     oneRoom: [],
     error: null
@@ -25,6 +30,17 @@ export const roomSlice = createSlice ({
   },
   extraReducers(builder) {
     builder
+      //addRoom
+      .addCase(addRoom.pending, (state, action) => {
+        state.status = 'loading'      
+      })
+      .addCase(addRoom.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+      })
+      .addCase(addRoom.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message      
+      })
 
       //fetchRooms
       .addCase(fetchRooms.pending, (state, action) => {
@@ -32,6 +48,7 @@ export const roomSlice = createSlice ({
       })
       .addCase(fetchRooms.fulfilled, (state, action) => {
         state.status = 'succeeded'  
+        state.totalRoom = action.payload.length
         state.allRoom = action.payload.filter(item => {
           if (action.meta.arg.filt === 1){
             return item.status === true;
@@ -73,7 +90,7 @@ export const roomSlice = createSlice ({
 }
 )
  
-export const { deleteRoom, addRoom} = roomSlice.actions
+export const { deleteRoom, } = roomSlice.actions
  
 export default roomSlice.reducer
   

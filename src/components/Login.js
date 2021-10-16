@@ -102,7 +102,7 @@ export default function Login(props) {
       }*/
       
       try{
-        const response = await fetch('https://backendhotelmiranda.azurewebsites.net/login', {
+        const response = await fetch('http://localhost:3001/login', {
           method: 'POST',
 					headers : { 'Content-Type' : 'application/json' },
           body: JSON.stringify({username: loginInput, password: passwordInput} )
@@ -112,7 +112,6 @@ export default function Login(props) {
 					const json =  await response.json();
 					
 					dispatch(authenticationHanlder({status: true, token: json.token}));
-					//props.authenticate(true);
 					history.replace(from);
 					setComb(true);
 					

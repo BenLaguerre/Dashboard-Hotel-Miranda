@@ -79,18 +79,20 @@ export default function NewRoom({title}) {
   
 	
 	const notify = () => toast.success('Room successfully created!', {
-		autoClose: 5000,
+		autoClose: 3000,
 		hideProgressBar: false,
 		closeOnClick: true,
 		pauseOnHover: true,
 		draggable: true,
 		progress: undefined,
+		onClose: () => history.replace(from)
 	});
 
 	const { register, handleSubmit, formState: { errors } } = useForm();
 	const onSubmit = newRoom => {
-		console.log(newRoom); 
+		dispatch(addRoom(newRoom));
 		notify();
+		
 	}
 	
 	/*const handleNewRoomSubmit = (e) => {
@@ -137,8 +139,8 @@ export default function NewRoom({title}) {
 				<p>Alphabetical characters only</p>
 			)}
 		
-			<label htmlFor="bedType" >Bed Type</label>
-			<select {...register("bedType")}>
+			<label htmlFor="bed" >Bed Type</label>
+			<select {...register("bed")}>
 				<option value='Single Bed'>Single Bed</option>
 				<option value='Double Bed'>Double Bed</option>
 				<option value='Two Single Bed'>Two Single Beds </option>

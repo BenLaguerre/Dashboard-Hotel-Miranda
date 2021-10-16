@@ -43,7 +43,7 @@ export default function RoomItem(props) {
       <td>{props.bed}</td>
       <Facilities>Ac, Shower, {props.bed},<br /> Towel, Coffee Set, LED TV, Wifi</Facilities>
       <td><b>{props.price}€</b><Rate>/night</Rate></td>
-      <td>{props.status  ? <Button color ="#E23428" name= 'Booked'/> : <Button color = "#5AD07A" name = 'Available' />}
+      <td>{props.status  ? <Button color = "#5AD07A" name = 'Available' /> : <Button color ="#E23428" name= 'Booked'/>}
       </td>
     </>
 

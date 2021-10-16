@@ -1,16 +1,19 @@
 const token = localStorage.getItem('token');
 
 export async function apiRequest (location,method,data = null) {
+    
      try{
-      const response = await fetch(`https://backendhotelmiranda.azurewebsites.net/${location}`, {
+      const response = await fetch(`http://localhost:3001/${location}`, {
         method: method,
         withCredentials: true,
         credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
         body: data ? JSON.stringify(data) : null
-      })
+        
+      })  
       if (response.ok){
         return await response.json();
       } else{
