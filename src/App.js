@@ -9,13 +9,11 @@ import Concierge from './components/Concierge';
 import NewConcierge from './components/NewConcierge';
 import Navbar from './components/Navbar';
 import ReviewList from './components/ReviewList';
-import Review from './components/Review';
 import Login from './components/Login';
 import Room from './components/Room';
 import NewRoom from './components/NewRoom';
 import PrivateRoute from './components/PrivateRoute';
 import HorizontalBar from './components/HorizontalBar';
-import Register from './components/Register';
 import {
   BrowserRouter as Router,
   Switch,
@@ -121,10 +119,6 @@ function App() {
                 <Login />  : <Redirect to="/dashboard" />}
               </Route>
 
-              <Route exact path="/register">{!authenticated ?
-                <Register />  : <Redirect to="/dashboard" />}
-              </Route>
-
               <PrivateRoute path="/roomlist/:id">
                 <Room  title={handleTitle} />
               </PrivateRoute>
@@ -135,10 +129,6 @@ function App() {
 
               <PrivateRoute path="/booking/:id">
                 <Guest title={handleTitle} />
-              </PrivateRoute>
-
-              <PrivateRoute path="/reviews/:id">
-                <Review title={handleTitle} />
               </PrivateRoute>
 
               <PrivateRoute exact path="/dashboard">

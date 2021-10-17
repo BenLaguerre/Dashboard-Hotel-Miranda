@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Logo from './Logo';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {authenticationHanlder} from '../features/authSlice';
 
 const LogoWrapper = styled.div`
@@ -35,11 +35,6 @@ const  FormStyled = styled.form`
   p:nth-of-type(2){
     grid-column:1/3;
     color: #E23428;
-  }
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 `
 const Title = styled.h1 `
@@ -101,13 +96,9 @@ export default function Login(props) {
 
   const  handleLoginSubmit = async(e) => {
     e.preventDefault();
-    /*let hardcodedLogs = {
-        login: 'admin',
-        password: 'admin'
-      }*/
       
       try{
-        const response = await fetch('https://backendhotelmiranda.azurewebsites.net/login', {
+        const response = await fetch('https://backendhotelmiranda.azurewebsites.net', {
           method: 'POST',
 					headers : { 'Content-Type' : 'application/json' },
           body: JSON.stringify({username: loginInput, password: passwordInput} )
@@ -117,7 +108,6 @@ export default function Login(props) {
 					const json =  await response.json();
 					
 					dispatch(authenticationHanlder({status: true, token: json.token}));
-					//props.authenticate(true);
 					history.replace(from);
 					setComb(true);
 					
@@ -147,7 +137,6 @@ export default function Login(props) {
       <SInput type="password" id="password" name="password" onChange={handlePasswordChange}></SInput>
 
       <FormButton type="submit" value="Log in"></FormButton>
-      <div><SLink to="/register"> Register </SLink></div>
       <p>Use the combination admin/admin to enter without registering</p>
       {!comb ?  
       <p>Wrong login or password combination </p>

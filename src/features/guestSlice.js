@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {apiRequest} from './apiRequest';
-import guestJSON from '../json/guestJSON.json';
 
 const GUESTS_MULTIPLY = 10;
 
@@ -18,23 +17,11 @@ export const fetchGuestsOfMonth = createAsyncThunk('roomList/fetchGuestsOfMonth'
   return await apiRequest('bookings','GET')
 })
 
-let guestsMap = guestJSON.map ((item, index) =>
-  ({
-    key: item.id, 
-    id: item.id, 
-    index: index,
-    name: item.name,
-    orderDate: item.booking_date, 
-    checkIn: item.start_date, 
-    checkOut: item.exit_date, 
-    message: item.message,
-    room: item.room_id 
-  }))
-
 export const guestSlice = createSlice ({
   name: 'guestList',
   initialState: {
     status: 'idle',
+    totalGuest: 0,
     guestList: [],
     oneGuest: [],
     guestMonth: [],
@@ -114,6 +101,7 @@ export const guestSlice = createSlice ({
       })
       .addCase(fetchGuests.fulfilled, (state, action) => {
         state.status = 'succeeded'  
+        state.totalGuest = action.payload.length
         state.guestList = action.payload.filter(item => {
           if (action.meta.arg.startDate){
 
@@ -180,10 +168,6 @@ export const guestSlice = createSlice ({
     }
 }
 )
- 
 
-
-export const {  deleteGuest, fetchAllGuests }  = guestSlice.actions
- 
 export default guestSlice.reducer
   

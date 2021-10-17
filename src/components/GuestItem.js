@@ -1,11 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useDispatch } from 'react-redux';
-import { deleteGuest } from '../features/guestSlice';
 import room_generic from '../images/room_generic.jpg';
-import { TiDeleteOutline } from "react-icons/ti";
-import { fetchRooms } from "../features/roomSlice";
 
 const TD = styled.td `
   padding-left:20px;
@@ -44,13 +40,7 @@ const Image = styled.img `
   height: 70px;
   width: 130px;
 `
-const Delete = styled(TiDeleteOutline) `
-  color: red;
-  display: flex;
-  &:hover {
-    cursor: pointer;
-  }
-`
+
 //Function that converts the dates in a human-readable format
 export function convertDate (date) {
   const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -59,9 +49,6 @@ export function convertDate (date) {
 }
 
 export default function GuestItem(props) {
-  
-  const dispatch = useDispatch();
- 
   return (
     <>
       <TD><StyledLink to={`/booking/${props.id}`} >{props.name}</StyledLink></TD>
@@ -70,7 +57,6 @@ export default function GuestItem(props) {
       <td>{convertDate(props.checkOut)}</td>
       <td><SButton>View Notes</SButton></td>
       <td><ImgWrapper><Image src={room_generic}></Image>9584-{props.room}</ImgWrapper></td>
-      <td><Delete size={26} onClick={() => dispatch(deleteGuest(props.index+1))}>Delete</Delete></td>
     </>
   );                        
 } 

@@ -1,61 +1,69 @@
 import React , { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addConcierge } from '../features/conciergeSlice';
 import { useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const  FormStyled = styled.form`
 	font-family: 'Poppins';
-  background: white;
+	background: white;
 	width: 30%;
 	padding: 30px 50px;
 	box-shadow: 0px 4px 4px #00000005;
 	border-radius: 20px;
 	margin: 50px auto 0 auto;
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-gap: 25px;
 	label {
 		color: #135846;
+		display: block;
+		margin-top: 25px;
+		margin-bottom: 10px;
+	}
+	input {
+		display: block;
+		box-sizing: border-box;
+		width: 100%;
+		background: #F8F8F8;
+		border: none;
+		border: 2px solid #135846;
+		border-radius: 12px;
+		padding: 8px 12px;
+		&:focus {
+			outline : none;
+				border-color: #135846;
+		}
 	}
 	select {
+		font-family: 'Poppins';
+		width: 100%;
 		color: #135846;
 		background: #F8F8F8;
 		border-radius: 12px;
 		border: 2px solid #135846;
 		padding: 8px 12px;
 	}
-`
-const Title = styled.h1 `
-	text-align: center;
-	grid-column: 1/3;
-`
-const SInput = styled.input `
-	background: #F8F8F8;
-	border: none;
-	border: 2px solid #135846;
-	border-radius: 12px;
-	padding: 8px 12px;
-	&:focus {
-		outline : none;
-    border-color: #135846;
+	p { 
+		font-family: 'Poppins';
+		color: red 
 	}
-`
-const FormButton = styled.input `
-	font-family: 'Poppins';
-	font-size: 16px;
-	box-sizing: content-box;
-	padding: 0;
-	border-radius: 12px;
-	background: #135846;
-	color: white;
-	border: 2px solid #135846;
-	height: 45px;
-	&:hover {
-		background: #F8F8F8;
-		color: #135846;
+	input:nth-of-type(6) {
+		margin-top: 25px;
+		font-family: 'Poppins';
+		font-size: 20px;
+		border-radius: 12px;
+		background: #135846;
+		color: white;
 		border: 2px solid #135846;
+		height: 60px;
+		&:hover {
+			background: #F8F8F8;
+			color: #135846;
+			border: 2px solid #135846;
+		}
 	}
+}
 `
 
 export default function NewConcierge({title}) {
@@ -64,78 +72,101 @@ export default function NewConcierge({title}) {
 	let { from } = { from: { pathname: "/conciergelist" } };
 
 	const dispatch = useDispatch();
+	const status = useSelector(state => state.conciergeList.status);
 
 	useEffect(() => {
 		title("New Employee")
 	}, [title]);
 
-	const [nameInput, setNameInput] = useState();
-	const [joinDate, setJoinDate] = useState(); 
-	const [phone, setPhone] = useState(); 
-	const [description, setDescription] = useState(); 
-	const [status, setStatus] = useState('Active'); 
-
-	const [check, setCheck] = useState(true);
-
-	const handleNameChange = (e) => {
-		setNameInput(e.target.value);
-	}
-	const handleDateChange = (e) => {
-		setJoinDate(e.target.value);
-	}
-	const handlePhoneChange = (e) => {
-		setPhone(e.target.value);
-	}
-	const handleDescriptionChange = (e) => {
-		setDescription(e.target.value);
-	}
-	const handleStatusChange = (e) => {
-		setStatus(e.target.value);
-	}
-
-	const handleNewConciergeSubmit = (e) => {
-		e.preventDefault();
-		
-		if ((nameInput === undefined) || (joinDate === undefined) || (phone === undefined) || (description === undefined)) {
-			setCheck(false)
-		} else {
-			let newConcierge = {
-				name: nameInput,
-				joinDate: joinDate, 
-				phone: phone, 
-				job: description, 
-				status: status
+	const { register, handleSubmit, formState: { errors } } = useForm();
+	const onSubmit = newConcierge => {
+		dispatch(addConcierge({...newConcierge, name: newConcierge.firstName + ' ' + newConcierge.lastName}));
+		setTimeout(function() {
+			if (status === 'succeeded'){
+			history.replace(from)
 			}
-			history.replace(from);
-			dispatch(addConcierge(newConcierge))
-		}	
+		}, 3000);
 	}
-
+	
 	return (
 	<>
-	<FormStyled onSubmit={handleNewConciergeSubmit}>
-			<Title>New employee</Title>
-				
-			<label htmlFor="name">Name</label>
-			<SInput autoFocus={true} type="text" id="name" onChange={handleNameChange}></SInput>
-
-			<label htmlFor="joinDate">Join Date</label>
-			<SInput  id="joinDate" onChange={handleDateChange}></SInput>
-
-			<label htmlFor="phone">Phone Number</label>
-			<SInput  id="phone" onChange={handlePhoneChange}></SInput>
-
-			<label htmlFor="description">Description</label>
-			<SInput  id="description" onChange={handleDescriptionChange}></SInput>
+	<ToastContainer
+			autoClose={1000}
+			hideProgressBar={false}
+			newestOnTop={false}
+			closeOnClick
+			rtl={false}
+			pauseOnFocusLoss
+			draggable
+			pauseOnHover
+		/>
+	<FormStyled onSubmit={handleSubmit(onSubmit)}>
+		<h1>New employee</h1>
 			
-			<label htmlFor="roomType" onChange={handleStatusChange}>Status</label>
-			<select>
-				<option value='Active'>Active</option>
-				<option value='Inactive'>Inactive</option>
-			</select>
+		<label htmlFor="firstname">First Name</label>
+		<input autoFocus={true} type="text" id="firstname" {...register("firstName", {
+          required: true,
+          maxLength: 20,
+          pattern: /^[A-Za-z]+$/i
+        })}>
+		</input>
+		{errors?.firstName?.type === "required" && <p>This field is required</p>}
+		{errors?.firstName?.type === "maxLength" && (
+			<p>Name cannot exceed 20 characters</p>
+		)}
+		{errors?.firstName?.type === "pattern" && (
+			<p>Alphabetical characters only</p>
+		)}
 
-			<FormButton type="submit" value="Create"></FormButton>
-			{!check ?  <p>Please fill all the fields</p> : null}
+		<label htmlFor="lastname">Last Name</label>
+		<input autoFocus={true} type="text" id="lastname" {...register("lastName", {
+          required: true,
+          maxLength: 20,
+          pattern: /^[A-Za-z]+$/i
+		})}></input>
+		{errors?.lastName?.type === "required" && <p>This field is required</p>}
+		{errors?.lastName?.type === "maxLength" && (
+			<p>Name cannot exceed 20 characters</p>
+		)}
+		{errors?.lastName?.type === "pattern" && (
+			<p>Alphabetical characters only</p>
+		)}
+
+		<label htmlFor="joinDate">Join Date</label>
+		<input  id="joinDate" type="date" {...register("join_date", {
+          required: true
+		})}></input>
+		{errors?.join_date?.type === "required" && <p>This field is required</p>}
+
+		<label htmlFor="phone">Phone Number</label>
+		<input  id="phone"	{...register("phone_number", {
+          required: true,
+					minLength: 8,
+          maxLength: 10,
+          pattern: /^[0-9]*$/i
+        })}></input>
+		{errors?.phone_number?.type === "required" && <p>This field is required</p>}
+		{errors?.phone_number?.type === "maxLength" && (
+			<p>Phone number cannot exceed 10 digits</p>
+		)}
+		{errors?.phone_number?.type === "minLength" && (
+			<p>Phone number have at least 8 digits</p>
+		)}
+		{errors?.phone_number?.type === "pattern" && (
+			<p>Numbers only</p>
+		)}
+
+		<label htmlFor="description">Description</label>
+		<input  id="description" {...register("job_description", {
+          required: true,
+          pattern: /^[A-Za-z ]+$/
+		})}></input>
+		{errors?.job_description?.type === "required" && <p>This field is required</p>}
+		{errors?.job_description?.type === "pattern" && (
+			<p>Alphabetical characters only</p>
+		)}
+
+		<input type="submit" value="Create"></input>
 	</FormStyled>
 	</>
   );

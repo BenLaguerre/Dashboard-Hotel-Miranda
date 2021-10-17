@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchConcierges} from '../features/conciergeSlice';
 import Pagination from "react-js-pagination";
 import { Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PreTable = styled.div`
   display: flex;
@@ -120,14 +122,14 @@ export default function ConciergeList({title}) {
 
   //Handling pagination
   const [activePage, setPage] = useState(1);
-  const totalItem = 25;
-
+  
   useEffect(() => {
     title("Concierges")
     dispatch(fetchConcierges({page: activePage, filt : filter}));
   }, []);
  
   const conciergeData = useSelector(state => state.conciergeList.conciergeList); 
+  const totalItem = useSelector(state => state.conciergeList.totalConcierge); 
 
   const newConciergeList = conciergeData.map (data =>
     (<TRow key={data.key}>
@@ -151,52 +153,53 @@ export default function ConciergeList({title}) {
     dispatch(fetchConcierges({page: newPage, filt : filter}));
   };
   return (
-        <>
-        <PreTable>
-          <ul>
-            <li 
-              onClick={() => handleFilterChange(0)}
-              className = {filter === 0 ? 'active' : null}>All Employee</li>
-            <li 
-              onClick={() => handleFilterChange(1)}
-              className = {filter === 1 ? 'active' : null}>Active Employee</li>
-            <li 
-              onClick={() => handleFilterChange(2)}
-              className = {filter === 2 ? 'active' : null}>Inactive Employee</li>
-          </ul>
-          <StyledLink to={`/conciergelist/newconcierge`}>+ New Employee</StyledLink>
-        </PreTable>
-        <div>
-          <TableStyle>
-            <TheadStyle>
-              <tr>
-                <PadTh>Name</PadTh>
-                <th>Job Description</th>
-                <th>Contact</th>
-                <th>Status</th>
-                <th>Delete</th>
-              </tr>
-            </TheadStyle>
-            <tbody>
-            {newConciergeList}
-            </tbody>
-          </TableStyle>
-          <PaginWrapper>
-            <p>Showing concierges {(activePage*10)-10+1} to {activePage*10} of {totalItem} concierges in total</p>
-            <Pagination
-                activePage={activePage}
-                itemsCountPerPage={10}
-                totalItemsCount={totalItem}
-                pageRangeDisplayed={3}
-                onChange={handlePageChange}
-                prevPageText='Prev'
-                nextPageText='Next'
-                hideFirstLastPages= 'true'
-                itemClassNext= 'next'
-                itemClassPrev= 'prev'
-              />
-          </PaginWrapper>
-        </div>
-        </>
+
+    <>
+    {conciergeData.length === 0 ? <ToastContainer autoClose={2000} /> : null }
+    <PreTable>
+      <ul>
+        <li 
+          onClick={() => handleFilterChange(0)}
+          className = {filter === 0 ? 'active' : null}>All Employee</li>
+        <li 
+          onClick={() => handleFilterChange(1)}
+          className = {filter === 1 ? 'active' : null}>Active Employee</li>
+        <li 
+          onClick={() => handleFilterChange(2)}
+          className = {filter === 2 ? 'active' : null}>Inactive Employee</li>
+      </ul>
+      <StyledLink to={`/conciergelist/newconcierge`}>+ New Employee</StyledLink>
+    </PreTable>
+    <div>
+      <TableStyle>
+        <TheadStyle>
+          <tr>
+            <PadTh>Name</PadTh>
+            <th>Job Description</th>
+            <th>Contact</th>
+            <th>Status</th>
+          </tr>
+        </TheadStyle>
+        <tbody>
+        {newConciergeList}
+        </tbody>
+      </TableStyle>
+      <PaginWrapper>
+        <p>Showing concierges {(activePage*10)-10+1} to {activePage*10} of {totalItem} concierges in total</p>
+        <Pagination
+            activePage={activePage}
+            itemsCountPerPage={10}
+            totalItemsCount={totalItem}
+            pageRangeDisplayed={Math.ceil(totalItem/10)}
+            onChange={handlePageChange}
+            prevPageText='Prev'
+            nextPageText='Next'
+            hideFirstLastPages= 'true'
+            itemClassNext= 'next'
+            itemClassPrev= 'prev'
+          />
+      </PaginWrapper>
+    </div>
+    </>
   );
 }

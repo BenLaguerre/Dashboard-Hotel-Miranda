@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchRooms} from '../features/roomSlice';
 import Pagination from "react-js-pagination";
 import { Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PreTable = styled.div`
   display: flex;
@@ -115,15 +117,15 @@ export default function RoomList({title}) {
 
   //Handling pagination
   const [activePage, setPage] = useState(1);
-  const totalItem = 25;
-
+  
   useEffect(() => {
     title("Rooms")
     dispatch(fetchRooms({page: 1, filt : filter}));
   }, [])
 
   const roomData = useSelector(state => state.roomList.allRoom); 
- 
+  const totalItem = useSelector(state => state.roomList.totalRoom);
+  
   const newRoomList = roomData.map (data =>
     (<TRow key={data.key}>
       <RoomItem  
@@ -146,18 +148,23 @@ export default function RoomList({title}) {
   };
 
   return (
+    
     <>
+    {roomData.length === 0 ? <ToastContainer autoClose={2000} /> : null }
     <PreTable>
       <ul>
         <li 
           onClick={() => handleFilterChange(0)}
-          className = {filter === 0 ? 'active' : null}>All Rooms</li>
+          className = {filter === 0 ? 'active' : null}>All Rooms
+        </li>
         <li 
           onClick={() => handleFilterChange(1)}
-          className = {filter === 1 ? 'active' : null}>Occupied Rooms</li>
+          className = {filter === 1 ? 'active' : null}>Occupied Rooms
+        </li>
         <li 
           onClick={() => handleFilterChange(2)}
-          className = {filter === 2 ? 'active' : null}>Free Rooms</li>
+          className = {filter === 2 ? 'active' : null}>Free Rooms
+        </li>
       </ul>
       <StyledLink to={`/roomlist/newroom`}>+ New Room</StyledLink>
     </PreTable>
@@ -170,7 +177,6 @@ export default function RoomList({title}) {
             <th>Facilities</th>
             <th>Rate</th>
             <th>Status</th>
-            <th>Delete</th>
           </tr>
         </TheadStyle>
         <tbody>
@@ -183,7 +189,7 @@ export default function RoomList({title}) {
             activePage={activePage}
             itemsCountPerPage={10}
             totalItemsCount={totalItem}
-            pageRangeDisplayed={3}
+            pageRangeDisplayed={Math.ceil(totalItem/10)}
             onChange={handlePageChange}
             prevPageText='Prev'
             nextPageText='Next'

@@ -1,10 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useDispatch } from 'react-redux';
-import { deleteConcierge } from '../features/conciergeSlice';
 import { convertDate } from './GuestItem';
-import { TiDeleteOutline } from "react-icons/ti";
 import { GrPhone } from "react-icons/gr";
 
 const PadTd= styled.td `
@@ -44,34 +41,23 @@ const Status= styled.p `
   color : ${props => props.color};
   font-weight: bold;
 `
-const Delete = styled(TiDeleteOutline) `
-  color: red;
-  display: flex;
-  &:hover {
-    cursor: pointer;
-  }
-`
 
 export default function ConciergeItem(props) {
-  const dispatch = useDispatch();
-
   return (
-
-      <>
-        <PadTd>
-          <StyledLink to={`/conciergelist/${props.id}`}>
-            <Picture />
-            <NameId>
-              <p>{props.name}</p> 
-              <p>6345 - {props.id}24</p>
-              <p>Join on {convertDate(props.joinDate)} </p>
-            </NameId>
-          </StyledLink>
-        </PadTd>
-        <Job>{props.job}</Job>
-        <td><GrPhone /> {props.phone}</td>
-        <td>{props.status === 1 ? <Status color= {'green'}>ACTIVE</Status> : <Status color= {'red'}>INACTIVE</Status>}</td>
-        <td><Delete size={26} onClick={() => dispatch(deleteConcierge(props.index+1))}>Delete</Delete></td>
-      </>
-    );                        
+    <>
+      <PadTd>
+        <StyledLink to={`/conciergelist/${props.id}`}>
+          <Picture />
+          <NameId>
+            <p>{props.name}</p> 
+            <p>6345 - {props.id}24</p>
+            <p>Join on {convertDate(props.joinDate)} </p>
+          </NameId>
+        </StyledLink>
+      </PadTd>
+      <Job>{props.job}</Job>
+      <td><GrPhone /> {props.phone}</td>
+      <td>{props.status === 1 ? <Status color= {'green'}>ACTIVE</Status> : <Status color= {'red'}>INACTIVE</Status>}</td>
+    </>
+  );                        
 } 
