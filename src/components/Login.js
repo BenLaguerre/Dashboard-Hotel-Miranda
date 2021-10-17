@@ -98,7 +98,7 @@ export default function Login(props) {
     e.preventDefault();
       
       try{
-        const response = await fetch('https://backendhotelmiranda.azurewebsites.net', {
+        const response = await fetch('https://backendhotelmiranda.azurewebsites.net/login', {
           method: 'POST',
 					headers : { 'Content-Type' : 'application/json' },
           body: JSON.stringify({username: loginInput, password: passwordInput} )
