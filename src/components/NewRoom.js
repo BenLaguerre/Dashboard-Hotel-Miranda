@@ -1,6 +1,6 @@
 import React , { useEffect } from "react";
 import styled from "styled-components";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addRoom } from '../features/roomSlice';
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -72,50 +72,30 @@ export default function NewRoom({title}) {
   let { from } = { from: { pathname: "/roomList" } };
 
 	const dispatch = useDispatch();
+	const status = useSelector(state => state.roomList.status);
 	
 	useEffect(() => {
 		title("New Room")
 	}, [title]);
   
-	
-	const notify = () => toast.success('Room successfully created!', {
-		autoClose: 3000,
-		hideProgressBar: false,
-		closeOnClick: true,
-		pauseOnHover: true,
-		draggable: true,
-		progress: undefined,
-		onClose: () => history.replace(from)
-	});
-
 	const { register, handleSubmit, formState: { errors } } = useForm();
 	const onSubmit = newRoom => {
 		dispatch(addRoom(newRoom));
-		notify();
-		
+		setTimeout(function() {
+			if (status === 'succeeded'){
+			history.replace(from)
+			}
+		}, 3000);
 	}
 	
-	/*const handleNewRoomSubmit = (e) => {
-		e.preventDefault();
-		let newRoom = {
-			roomName: nameInput,
-			bedType: bedType, 
-			rates: price, 
-			btype: 'Available'
-		}
-		history.replace(from);
-		dispatch(addRoom(newRoom))
-	}
-}	*/
-
+	
   return (
     <>
 		 <ToastContainer
-			autoClose={5000}
+			autoClose={1000}
 			hideProgressBar={false}
 			newestOnTop={false}
 			closeOnClick
-			rtl={false}
 			pauseOnFocusLoss
 			draggable
 			pauseOnHover

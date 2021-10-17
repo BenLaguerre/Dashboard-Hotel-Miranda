@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchReviews } from '../features/reviewSlice';
 import Pagination from "react-js-pagination";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PreTable = styled.div`
   display: flex;
@@ -93,7 +95,7 @@ export default function ReviewList({title}) {
 
   //Handling pagination
   const [activePage, setPage] = useState(1);
-  const totalItem = 25;
+  
 
   useEffect(() => {
     title("Reviews")
@@ -101,7 +103,8 @@ export default function ReviewList({title}) {
   }, []);
   
   const reviewData = useSelector(state => state.reviewList.reviewList); 
-  
+  const totalItem = useSelector(state => state.reviewList.totalReview);  
+
   useEffect(() => {
     if (reviewData)
     setCards(reviewData)
@@ -134,7 +137,9 @@ export default function ReviewList({title}) {
   };
   
   return (
-    <> 
+    
+    <>
+    {reviewData.length === 0 ? <ToastContainer autoClose={2000} /> : null } 
     <PreTable>
       <ul>
         <li className = 'active'>All Reviews</li>
@@ -159,7 +164,7 @@ export default function ReviewList({title}) {
             activePage={activePage}
             itemsCountPerPage={10}
             totalItemsCount={totalItem}
-            pageRangeDisplayed={totalItem/10}
+            pageRangeDisplayed={Math.ceil(totalItem/10)}
             onChange={handlePageChange}
             prevPageText='Prev'
             nextPageText='Next'

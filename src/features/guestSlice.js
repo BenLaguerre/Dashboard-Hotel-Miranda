@@ -21,6 +21,7 @@ export const guestSlice = createSlice ({
   name: 'guestList',
   initialState: {
     status: 'idle',
+    totalGuest: 0,
     guestList: [],
     oneGuest: [],
     guestMonth: [],
@@ -100,6 +101,7 @@ export const guestSlice = createSlice ({
       })
       .addCase(fetchGuests.fulfilled, (state, action) => {
         state.status = 'succeeded'  
+        state.totalGuest = action.payload.length
         state.guestList = action.payload.filter(item => {
           if (action.meta.arg.startDate){
 

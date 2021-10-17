@@ -9,6 +9,8 @@ import { BsSquareFill } from "react-icons/bs";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchGuestsOfMonth } from '../features/guestSlice';
 import CalendarRooms from "./CalendarRooms";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DashWrapper = styled.div`
   margin: 0 auto;
@@ -218,7 +220,6 @@ const Legend = styled.div`
 export default function Dashboard({title}) {
   
   const dispatch = useDispatch();
-
   const [activeDate, setDate] = useState(new Date);
   
   const changeDate = (date) => {
@@ -252,6 +253,7 @@ export default function Dashboard({title}) {
         date={data.checkIn}
         color="#135846"
     />)
+
   const checkOut = bookings.filter(data => monthName(activeDate) === monthName(new Date(data.checkOut)))
     .sort((a, b) => {
       return new Date(a.checkOut) - new Date(b.checkOut);   //Order the array by checkOut dates.
@@ -264,8 +266,11 @@ export default function Dashboard({title}) {
         date={data.checkOut}
         color="#E23428"
     />)
+
   return (
+
     <>
+    {bookings.length === 0 ? <ToastContainer autoClose={2000} /> : null }
     <DashWrapper>
       <KpiWrapper>
         <KPI><Bed size={32} /><Number><h2>61</h2><p>New Bookings</p></Number></KPI>
@@ -291,8 +296,6 @@ export default function Dashboard({title}) {
         </Legend>
         <ReservationChart />
       </ChartWrapper>
-      
-      
     </DashWrapper>
     </>
   );

@@ -90,7 +90,5 @@ export const roomSlice = createSlice ({
 }
 )
  
-export const { deleteRoom, } = roomSlice.actions
- 
 export default roomSlice.reducer
   

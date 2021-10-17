@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Logo from './Logo';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {authenticationHanlder} from '../features/authSlice';
 
 const LogoWrapper = styled.div`
@@ -96,13 +96,9 @@ export default function Login(props) {
 
   const  handleLoginSubmit = async(e) => {
     e.preventDefault();
-    /*let hardcodedLogs = {
-        login: 'admin',
-        password: 'admin'
-      }*/
       
       try{
-        const response = await fetch('https://backendhotelmiranda.azurewebsites.net/login', {
+        const response = await fetch('https://backendhotelmiranda.azurewebsites.net', {
           method: 'POST',
 					headers : { 'Content-Type' : 'application/json' },
           body: JSON.stringify({username: loginInput, password: passwordInput} )

@@ -3,6 +3,10 @@ import {apiRequest} from './apiRequest';
 
 const CONCIERGE_MULTIPLY = 10;
 
+export const addConcierge = createAsyncThunk('conciergeList/addConcierge', async (arg) => {
+  return await  apiRequest('concierges','POST', arg)
+})
+
 export const fetchConcierges = createAsyncThunk('conciergeList/fetchConcierges', async () => {
     return await apiRequest('concierges','GET')
 })
@@ -15,6 +19,7 @@ export const conciergeSlice = createSlice ({
   name: 'conciergeList',
   initialState: {
     status: 'idle',
+    totalConcierge : [],
     conciergeList : [],
     oneConcierge : [],
     error: null
@@ -25,12 +30,25 @@ export const conciergeSlice = createSlice ({
   extraReducers(builder) {
     builder
 
+      //addConcierge
+      .addCase(addConcierge.pending, (state, action) => {
+        state.status = 'loading'      
+      })
+      .addCase(addConcierge.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+      })
+      .addCase(addConcierge.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message      
+      })
+
       //fetchConcierges
       .addCase(fetchConcierges.pending, (state, action) => {
         state.status = 'loading'      
       })
       .addCase(fetchConcierges.fulfilled, (state, action) => {
         state.status = 'succeeded'  
+        state.totalConcierge = action.payload.length
         state.conciergeList = action.payload.filter(item => {
           if (action.meta.arg.filt === 1){
             return item.state === 1;
@@ -74,6 +92,5 @@ export const conciergeSlice = createSlice ({
 }
 )
  
-export const { deleteConcierge, addConcierge }  = conciergeSlice.actions
  
 export default conciergeSlice.reducer

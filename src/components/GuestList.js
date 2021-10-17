@@ -6,6 +6,8 @@ import { fetchGuests} from '../features/guestSlice';
 import Pagination from "react-js-pagination";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PreTable = styled.div`
   display: flex;
@@ -132,7 +134,7 @@ export default function GuestList({title}) {
    
   //Handling pagination
   const [activePage, setPage] = useState(1);
-  const totalItem = 40;
+  
 
   const [dateRange, setDateRange] = useState([null, null]);
   const [startDate, endDate] = dateRange;
@@ -143,7 +145,8 @@ export default function GuestList({title}) {
   }, [dateRange]);
 
   const guestData = useSelector(state => state.guestList.guestList); 
- 
+  const totalItem = useSelector(state => state.guestList.totalGuest); 
+
   const newGuestList = guestData.map (data =>
     (<TRow key={data.key}>
       <GuestItem 
@@ -167,71 +170,73 @@ export default function GuestList({title}) {
   };
   
   return (
+
     <>
-      <PreTable>
-        <ul>
-          <li 
-            onClick={() => handleFilterChange(0)}
-            className = {filter === 0 ? 'active' : null}>All
-          </li>
-          <li 
-            onClick={() => handleFilterChange(1)}
-            className = {filter === 1 ? 'active' : null}>Check In
-          </li>
-          <li 
-            onClick={() => handleFilterChange(2)}
-            className = {filter === 2 ? 'active' : null}>Check Out
-          </li>
-        </ul>
-        
-        <CalendarTool>
-          <DatePicker
-            selectsRange={true}
-            startDate={startDate}
-            endDate={endDate}
-            onChange={(update) => {
-              setDateRange(update);
-            }}
-            
-            dateFormat="d MMMM yyyy"
-            placeholderText="Click to select a date range"
-            isClearable={true}
-          />
-        </CalendarTool>
-      </PreTable>
+    {guestData.length === 0 ? <ToastContainer autoClose={2000} /> : null }
+    <PreTable>
+      <ul>
+        <li 
+          onClick={() => handleFilterChange(0)}
+          className = {filter === 0 ? 'active' : null}>All
+        </li>
+        <li 
+          onClick={() => handleFilterChange(1)}
+          className = {filter === 1 ? 'active' : null}>Check In
+        </li>
+        <li 
+          onClick={() => handleFilterChange(2)}
+          className = {filter === 2 ? 'active' : null}>Check Out
+        </li>
+      </ul>
       
-      <div>
-        <TableStyle>
-          <TheadStyle>
-            <tr>
-              <TH>Guest</TH>
-              <th>Order Date</th>
-              <th>Check In</th>
-              <th>Check Out</th>
-              <th>Special Request</th>
-              <th>Room type</th>
-            </tr>
-          </TheadStyle>
-          <tbody>
-          {newGuestList}
-          </tbody>
-        </TableStyle>
-        <PaginWrapper>
-          <p>Showing booking {(activePage*10)-10+1} to {activePage*10} of {totalItem} booking in total</p>
-          <Pagination
-              activePage={activePage}
-              itemsCountPerPage={10}
-              totalItemsCount={totalItem}
-              pageRangeDisplayed={totalItem/10}
-              onChange={handlePageChange}
-              prevPageText='Prev'
-              nextPageText='Next'
-              hideFirstLastPages= {true}
-              itemClassNext= 'next'
-              itemClassPrev= 'prev'
-            />
-        </PaginWrapper>
-      </div>
+      <CalendarTool>
+        <DatePicker
+          selectsRange={true}
+          startDate={startDate}
+          endDate={endDate}
+          onChange={(update) => {
+            setDateRange(update);
+          }}
+          
+          dateFormat="d MMMM yyyy"
+          placeholderText="Click to select a date range"
+          isClearable={true}
+        />
+      </CalendarTool>
+    </PreTable>
+    
+    <div>
+      <TableStyle>
+        <TheadStyle>
+          <tr>
+            <TH>Guest</TH>
+            <th>Order Date</th>
+            <th>Check In</th>
+            <th>Check Out</th>
+            <th>Special Request</th>
+            <th>Room type</th>
+          </tr>
+        </TheadStyle>
+        <tbody>
+        {newGuestList}
+        </tbody>
+      </TableStyle>
+      <PaginWrapper>
+        <p>Showing booking {(activePage*10)-10+1} to {activePage*10} of {totalItem} booking in total</p>
+        <Pagination
+            activePage={activePage}
+            itemsCountPerPage={10}
+            totalItemsCount={totalItem}
+            pageRangeDisplayed={Math.ceil(totalItem/10)}
+            onChange={handlePageChange}
+            prevPageText='Prev'
+            nextPageText='Next'
+            hideFirstLastPages= {true}
+            itemClassNext= 'next'
+            itemClassPrev= 'prev'
+          />
+      </PaginWrapper>
+    </div>
     </>
   );
 }

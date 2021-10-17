@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchRooms} from '../features/roomSlice';
 import Pagination from "react-js-pagination";
 import { Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PreTable = styled.div`
   display: flex;
@@ -123,7 +125,7 @@ export default function RoomList({title}) {
 
   const roomData = useSelector(state => state.roomList.allRoom); 
   const totalItem = useSelector(state => state.roomList.totalRoom);
-
+  
   const newRoomList = roomData.map (data =>
     (<TRow key={data.key}>
       <RoomItem  
@@ -146,7 +148,9 @@ export default function RoomList({title}) {
   };
 
   return (
+    
     <>
+    {roomData.length === 0 ? <ToastContainer autoClose={2000} /> : null }
     <PreTable>
       <ul>
         <li 
@@ -185,7 +189,7 @@ export default function RoomList({title}) {
             activePage={activePage}
             itemsCountPerPage={10}
             totalItemsCount={totalItem}
-            pageRangeDisplayed={totalItem/10}
+            pageRangeDisplayed={Math.ceil(totalItem/10)}
             onChange={handlePageChange}
             prevPageText='Prev'
             nextPageText='Next'

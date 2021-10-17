@@ -11,6 +11,7 @@ export const reviewSlice = createSlice ({
   name: 'reviewList',
   initialState: {
     status: 'idle',
+    totalReview : 0,
     reviewList : [],
     error: null
   },
@@ -26,7 +27,8 @@ export const reviewSlice = createSlice ({
         state.status = 'loading'      
       })
       .addCase(fetchReviews.fulfilled, (state, action) => {
-        state.status = 'succeeded'  
+        state.status = 'succeeded' 
+        state.totalReview = action.payload.length 
         state.reviewList = action.payload.slice((action.meta.arg-1)*REVIEW_MULTIPLY , action.meta.arg * REVIEW_MULTIPLY)
           .map((data, index) =>
           ({

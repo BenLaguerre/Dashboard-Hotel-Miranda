@@ -1,10 +1,10 @@
 import React , { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addConcierge } from '../features/conciergeSlice';
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const  FormStyled = styled.form`
@@ -72,48 +72,26 @@ export default function NewConcierge({title}) {
 	let { from } = { from: { pathname: "/conciergelist" } };
 
 	const dispatch = useDispatch();
+	const status = useSelector(state => state.conciergeList.status);
 
 	useEffect(() => {
 		title("New Employee")
 	}, [title]);
 
-	const notify = () => toast.success('Room successfully created!', {
-		autoClose: 5000,
-		hideProgressBar: false,
-		closeOnClick: true,
-		pauseOnHover: true,
-		draggable: true,
-		progress: undefined,
-	});
-
 	const { register, handleSubmit, formState: { errors } } = useForm();
 	const onSubmit = newConcierge => {
-		console.log(newConcierge); 
-		notify();
-	}
-
-	/*const handleNewConciergeSubmit = (e) => {
-		e.preventDefault();
-		
-		if ((nameInput === undefined) || (joinDate === undefined) || (phone === undefined) || (description === undefined)) {
-			setCheck(false)
-		} else {
-			let newConcierge = {
-				name: nameInput,
-				joinDate: joinDate, 
-				phone: phone, 
-				job: description, 
-				status: status
+		dispatch(addConcierge({...newConcierge, name: newConcierge.firstName + ' ' + newConcierge.lastName}));
+		setTimeout(function() {
+			if (status === 'succeeded'){
+			history.replace(from)
 			}
-			history.replace(from);
-			dispatch(addConcierge(newConcierge))
-		}	
-	}*/
-
+		}, 3000);
+	}
+	
 	return (
 	<>
 	<ToastContainer
-			autoClose={5000}
+			autoClose={1000}
 			hideProgressBar={false}
 			newestOnTop={false}
 			closeOnClick
@@ -155,32 +133,36 @@ export default function NewConcierge({title}) {
 		)}
 
 		<label htmlFor="joinDate">Join Date</label>
-		<input  id="joinDate" type="date" {...register("joinDate", {
+		<input  id="joinDate" type="date" {...register("join_date", {
           required: true
 		})}></input>
-		{errors?.joinDate?.type === "required" && <p>This field is required</p>}
+		{errors?.join_date?.type === "required" && <p>This field is required</p>}
 
 		<label htmlFor="phone">Phone Number</label>
-		<input  id="phone"	{...register("phone", {
+		<input  id="phone"	{...register("phone_number", {
           required: true,
+					minLength: 8,
           maxLength: 10,
           pattern: /^[0-9]*$/i
         })}></input>
-		{errors?.phone?.type === "required" && <p>This field is required</p>}
-		{errors?.phone?.type === "maxLength" && (
-			<p>Name cannot exceed 10 digits</p>
+		{errors?.phone_number?.type === "required" && <p>This field is required</p>}
+		{errors?.phone_number?.type === "maxLength" && (
+			<p>Phone number cannot exceed 10 digits</p>
 		)}
-		{errors?.phone?.type === "pattern" && (
+		{errors?.phone_number?.type === "minLength" && (
+			<p>Phone number have at least 8 digits</p>
+		)}
+		{errors?.phone_number?.type === "pattern" && (
 			<p>Numbers only</p>
 		)}
 
 		<label htmlFor="description">Description</label>
-		<input  id="description" {...register("description", {
+		<input  id="description" {...register("job_description", {
           required: true,
           pattern: /^[A-Za-z ]+$/
 		})}></input>
-		{errors?.description?.type === "required" && <p>This field is required</p>}
-		{errors?.description?.type === "pattern" && (
+		{errors?.job_description?.type === "required" && <p>This field is required</p>}
+		{errors?.job_description?.type === "pattern" && (
 			<p>Alphabetical characters only</p>
 		)}
 
